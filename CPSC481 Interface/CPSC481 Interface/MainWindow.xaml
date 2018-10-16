@@ -22,6 +22,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
                     <TextBlock Text="COURSES" TextAlignment="Center" FontSize="25" FontWeight="Bold" />
+                    <Button Content="Confirm Enrollment"></Button>
                 </StackPanel>
                 <StackPanel Grid.Row="1">
                     <TextBlock Text="COURSE NAME HERE" TextAlignment="Center" FontSize="20" FontWeight="Bold" />
