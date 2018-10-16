@@ -1,0 +1,15 @@
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\bin\Debug\CPSC481 Interface.exe.config
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\bin\Debug\CPSC481 Interface.exe
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\bin\Debug\CPSC481 Interface.pdb
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\CPSC481 Interface.csprojAssemblyReference.cache
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\MainWindow.g.cs
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\App.g.cs
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\CPSC481 Interface_MarkupCompile.cache
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\CPSC481 Interface_MarkupCompile.lref
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\MainWindow.baml
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\CPSC481 Interface.g.resources
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\CPSC481_Interface.Properties.Resources.resources
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\CPSC481 Interface.csproj.GenerateResource.cache
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\CPSC481 Interface.csproj.CoreCompileInputs.cache
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\CPSC481 Interface.exe
+C:\Users\Sifan\source\repos\CPSC481 Interface\CPSC481 Interface\obj\Debug\CPSC481 Interface.pdb
