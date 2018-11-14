@@ -15,24 +15,26 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace CPSC481_Interface {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window {
-		public MainWindow() {
-			InitializeComponent();
-		}
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window {
+        public MainWindow() {
+            InitializeComponent();
 
-		private void SearchBox_GotFocus(object sender, RoutedEventArgs e) {
-			if (SearchBox.Text.Equals("Search Course")) {
-				SearchBox.Text = "";
-			}
-		}
+            ProgramWindow.Children.Add(new ClassSection());
+        }
 
-		private void SearchBox_LostFocus(object sender, RoutedEventArgs e) {
-			if (SearchBox.Text.Equals("")) {
-				SearchBox.Text = "Search Course";
-			}
-		}
-	}
+        private void SearchBox_GotFocus(object sender, RoutedEventArgs e) {
+            if (SearchBox.Text.Equals("Search Course")) {
+                SearchBox.Text = "";
+            }
+        }
+
+        private void SearchBox_LostFocus(object sender, RoutedEventArgs e) {
+            if (SearchBox.Text.Equals("")) {
+                SearchBox.Text = "Search Course";
+            }
+        }
+    }
 }

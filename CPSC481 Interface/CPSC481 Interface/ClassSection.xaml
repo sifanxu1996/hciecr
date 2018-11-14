@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="CPSC481_Interface.ClassSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CPSC481_Interface"
+             mc:Ignorable="d" 
+             MouseDown="UserControl_MouseDown" MouseUp="UserControl_MouseUp" MouseMove="UserControl_MouseMove" Height="75" Width="115">
+    <Grid>
+        <Rectangle x:Name="ClassBG" Fill="Beige" HorizontalAlignment="Center" Height="75" Stroke="Black" StrokeThickness="2" VerticalAlignment="Center" Width="115"/>
+        <Label x:Name="ClassName" Content="Class Name" HorizontalAlignment="Center" Margin="0,3,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="ClassSection1" Content="Class Section" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="ClassTime" Content="Class Time" HorizontalAlignment="Center" Margin="0,0,0,3" VerticalAlignment="Bottom"/>
+    </Grid>
+</UserControl>
