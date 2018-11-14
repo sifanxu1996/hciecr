@@ -21,11 +21,14 @@ namespace CPSC481_Interface {
 
         private Point offset;
         private Thickness startPosition;
+        private MainWindow window;
 
-        public ClassSection() {
+        public ClassSection(MainWindow Window, string Type) {
             InitializeComponent();
 
             offset = new Point();
+            window = Window;
+            SectionType.Content = Type;
         }
 
         private void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
@@ -36,7 +39,7 @@ namespace CPSC481_Interface {
 
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e) {
             this.ReleaseMouseCapture();
-            this.Margin = startPosition;
+            window.released = this;
         }
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e) {
@@ -51,6 +54,10 @@ namespace CPSC481_Interface {
                 margin.Bottom -= delta.Y;
                 this.Margin = margin;
             }
+        }
+
+        public void ResetPosition() {
+            this.Margin = startPosition;
         }
     }
 }
