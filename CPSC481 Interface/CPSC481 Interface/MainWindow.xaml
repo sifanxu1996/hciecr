@@ -6,73 +6,93 @@
         xmlns:local="clr-namespace:CPSC481_Interface"
         mc:Ignorable="d"
         Title="CourseRegistration" Height="720" Width="1080">
-    <Border Padding="10" Background="LightBlue">
-        <Grid Background="AliceBlue" ShowGridLines="False">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2*" />
-            </Grid.ColumnDefinitions>
+    <Grid Background="AliceBlue" x:Name="ProgramWindow">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.75*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
 
-            <!-- Courses -->
-            <Grid Grid.Column="0">
-                <TextBlock Text="COURSES" TextAlignment="Center" FontSize="25" FontWeight="Bold" />
-                <Button Content="Confirm Enrollment" Height ="30" VerticalAlignment="Bottom" Margin="10,0,10,10"/>
-            </Grid>
+        <!-- Courses -->
+        <Grid Grid.Column="0" Background="LightCyan">
+            <TextBlock Text="COURSES" TextAlignment="Center" FontSize="25" FontWeight="Bold" Margin="0,5,0,0" />
+            <Button Content="Confirm Enrollment" Height ="30" VerticalAlignment="Bottom" Margin="10,0,10,10" />
+        </Grid>
 
-            <!-- Search -->
-            <StackPanel Grid.Column="1">
-                <TextBox x:Name="SearchBox" Padding="2" Margin="10,10,10,10" Text="Search Course" Foreground="Gray" GotFocus="SearchBox_GotFocus" LostFocus="SearchBox_LostFocus"/>
-                <!--<Label x:Name="DebugLabel" Content="DEBUG"/>-->
-            </StackPanel>
+        <!-- Search -->
+        <StackPanel Grid.Column="1" Background="LightSkyBlue">
+            <TextBox x:Name="SearchBox" Padding="2" Margin="10,10,10,10" Text="Search Course" FontSize="15" Height="30" Foreground="Gray" GotFocus="SearchBox_GotFocus" LostFocus="SearchBox_LostFocus"/>
+        </StackPanel>
 
-            <!-- Calendar -->
-            <Grid Grid.Column="2">
+        <!-- Calendar -->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.05*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Semester" />
+                <RadioButton Content="F2018" Margin="10,0,10,0" IsChecked="True"/>
+                <RadioButton Content="W2019" Margin="10,0,10,0" />
+                <RadioButton Content="P2019" Margin="10,0,10,0" />
+                <RadioButton Content="S2018" Margin="10,0,10,0" />
+            </WrapPanel>
+            <Grid Grid.Row="1" Background="AliceBlue" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.05*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Semester" />
-                    <RadioButton Content="F2018" Margin="10,0,10,0" IsChecked="True"/>
-                    <RadioButton Content="W2019" Margin="10,0,10,0" />
-                    <RadioButton Content="P2019" Margin="10,0,10,0" />
-                    <RadioButton Content="S2018" Margin="10,0,10,0" />
-                </WrapPanel>
-                <Grid Grid.Row="1" Background="LightGoldenrodYellow">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="0.3*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <Rectangle Grid.Column="0" Grid.RowSpan="9" Fill="LightCyan"/>
+                <Rectangle Grid.Row="0" Grid.ColumnSpan="9" Fill="SlateGray"/>
 
-                    <!--<Rectangle Grid.Column="1" Grid.Row="2" Grid.RowSpan="10" Height="200" VerticalAlignment="Top" Fill="LightBlue"/>-->
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="Mon" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="Tue" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="3" Grid.Row="0" Text="Wed" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="4" Grid.Row="0" Text="Thu" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="5" Grid.Row="0" Text="Fri" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
 
-                    <Rectangle Grid.Column="0" Grid.RowSpan="9" Fill="LightBlue"/>
-                    <Rectangle Grid.Column="2" Grid.RowSpan="9" Fill="LightBlue"/>
-                    <Rectangle Grid.Column="4" Grid.RowSpan="9" Fill="LightBlue"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Time" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="8AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="9AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="10AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="11AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="12PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="1PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="2PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="8" Text="3PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
 
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Mon" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                    <TextBlock Grid.Column="1" Grid.Row="0" Text="Tue" TextAlignment="Center" VerticalAlignment="Center"  FontWeight="Bold" />
-                    <TextBlock Grid.Column="2" Grid.Row="0" Text="Wed" TextAlignment="Center" VerticalAlignment="Center"  FontWeight="Bold" />
-                    <TextBlock Grid.Column="3" Grid.Row="0" Text="Thu" TextAlignment="Center" VerticalAlignment="Center"  FontWeight="Bold" />
-                    <TextBlock Grid.Column="4" Grid.Row="0" Text="Fri" TextAlignment="Center" VerticalAlignment="Center"  FontWeight="Bold" />
-                </Grid>
+                <Border Grid.Column="1" Grid.Row="1" BorderThickness="0.5" Grid.ColumnSpan="7" Grid.RowSpan="1" BorderBrush="Gray" />
+                <Border Grid.Column="1" Grid.Row="2" BorderThickness="0.5" Grid.ColumnSpan="7" Grid.RowSpan="1" BorderBrush="Gray" />
+                <Border Grid.Column="1" Grid.Row="3" BorderThickness="0.5" Grid.ColumnSpan="7" Grid.RowSpan="1" BorderBrush="Gray" />
+                <Border Grid.Column="1" Grid.Row="4" BorderThickness="0.5" Grid.ColumnSpan="7" Grid.RowSpan="1" BorderBrush="Gray" />
+                <Border Grid.Column="1" Grid.Row="5" BorderThickness="0.5" Grid.ColumnSpan="7" Grid.RowSpan="1" BorderBrush="Gray" />
+                <Border Grid.Column="1" Grid.Row="6" BorderThickness="0.5" Grid.ColumnSpan="7" Grid.RowSpan="1" BorderBrush="Gray" />
+                <Border Grid.Column="1" Grid.Row="7" BorderThickness="0.5" Grid.ColumnSpan="7" Grid.RowSpan="1" BorderBrush="Gray" />
+                <Border Grid.Column="1" Grid.Row="8" BorderThickness="0.5" Grid.ColumnSpan="7" Grid.RowSpan="1" BorderBrush="Gray" />
+
+                <Border Grid.Column="1" Grid.Row="1" BorderThickness="0.5" Grid.ColumnSpan="1" Grid.RowSpan="8" BorderBrush="Gray" />
+                <Border Grid.Column="2" Grid.Row="1" BorderThickness="0.5" Grid.ColumnSpan="1" Grid.RowSpan="8" BorderBrush="Gray" />
+                <Border Grid.Column="3" Grid.Row="1" BorderThickness="0.5" Grid.ColumnSpan="1" Grid.RowSpan="8" BorderBrush="Gray" />
+                <Border Grid.Column="4" Grid.Row="1" BorderThickness="0.5" Grid.ColumnSpan="1" Grid.RowSpan="8" BorderBrush="Gray" />
+                <Border Grid.Column="5" Grid.Row="1" BorderThickness="0.5" Grid.ColumnSpan="1" Grid.RowSpan="8" BorderBrush="Gray" />
             </Grid>
         </Grid>
-    </Border>
+    </Grid>
 </Window>
