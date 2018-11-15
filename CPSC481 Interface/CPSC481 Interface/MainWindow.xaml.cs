@@ -96,7 +96,8 @@ namespace CPSC481_Interface {
 
             // Add the text   
             block.Text = text;
-            
+            block.HorizontalAlignment = HorizontalAlignment.Center;
+            block.FontSize = 20;
 
 
             // A little style...   
