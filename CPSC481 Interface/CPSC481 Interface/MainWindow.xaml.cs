@@ -127,7 +127,7 @@ namespace CPSC481_Interface {
 
         private void AddItem(string text) {
             TextBlock block = new TextBlock();
-
+          
             // Add the text   
             block.Text = text;
             block.HorizontalAlignment = HorizontalAlignment.Center;

@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="CourseRegistration" Height="720" Width="1080" MouseUp="Window_MouseUp">
     <Grid Background="#FFCF06" x:Name="ProgramWindow">
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*" />
             <ColumnDefinition Width="0.75*" />
