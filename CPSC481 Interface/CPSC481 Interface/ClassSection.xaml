@@ -8,7 +8,7 @@
              MouseDown="UserControl_MouseDown" MouseUp="UserControl_MouseUp" MouseMove="UserControl_MouseMove">
     <Viewbox Stretch="Fill">
         <Grid>
-            <Rectangle Fill="#FFCF06" HorizontalAlignment="Center" Height="45" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center" Width="115" RadiusX="35" RadiusY="35"/>
+            <Rectangle Fill="#FFCF06" HorizontalAlignment="Center" Height="45" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center" Width="115" RadiusX="20" RadiusY="20"/>
             <Label x:Name="SectionType" Content="Section" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
         </Grid>
     </Viewbox>

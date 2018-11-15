@@ -21,7 +21,12 @@
 
         <!-- Search -->
         <StackPanel Grid.Column="1" Background="#FFCF06">
-            <TextBox x:Name="SearchBox" Padding="2" Margin="10,10,10,10" Text="Search Course" FontSize="15" Height="30" Foreground="Gray" GotFocus="SearchBox_GotFocus" LostFocus="SearchBox_LostFocus"/>
+            <TextBox x:Name="SearchBox" Padding="2" Margin="10,10,10,5" Text="Search Course" FontSize="15" Height="30" Foreground="Gray" GotFocus="SearchBox_GotFocus" LostFocus="SearchBox_LostFocus" KeyUp="SearchBox_KeyUp"/>
+            <Border Margin="10,0,10,10" BorderBrush="DarkBlue" BorderThickness="1" Visibility="Collapsed">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Name="ResultStack"></StackPanel>
+                </ScrollViewer>
+            </Border>
         </StackPanel>
 
         <!-- Calendar -->

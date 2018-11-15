@@ -38,18 +38,6 @@ namespace CPSC481_Interface {
             released = null;
         }
 
-        private void SearchBox_GotFocus(object sender, RoutedEventArgs e) {
-            if (SearchBox.Text.Equals("Search Course")) {
-                SearchBox.Text = "";
-            }
-        }
-
-        private void SearchBox_LostFocus(object sender, RoutedEventArgs e) {
-            if (SearchBox.Text.Equals("")) {
-                SearchBox.Text = "Search Course";
-            }
-        }
-
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
             if (released != null) {
                 released.ResetPosition();
@@ -81,6 +69,91 @@ namespace CPSC481_Interface {
                     }
                 }
             }
+        }
+
+        private void SearchBox_GotFocus(object sender, RoutedEventArgs e) {
+            if (SearchBox.Text.Equals("Search Course")) {
+                SearchBox.Text = "";
+            }
+        }
+
+        private void SearchBox_LostFocus(object sender, RoutedEventArgs e) {
+            if (SearchBox.Text.Equals("")) {
+                SearchBox.Text = "Search Course";
+            }
+        }
+
+        private List<string> GetData() {
+            List<string> data = new List<string>();
+            data.Add("CPSC 231");
+            data.Add("MATH 211");
+            data.Add("CPSC 481");
+            data.Add("LING 201");
+            data.Add("CPSC 413");
+            data.Add("PHIL 314");
+            return data;
+        }
+
+        private void SearchBox_KeyUp(object sender, KeyEventArgs e) {
+            bool found = false;
+            Border border = (ResultStack.Parent as ScrollViewer).Parent as Border;
+            List<string> data = GetData();
+
+            string query = SearchBox.Text.ToLower();
+
+            if (query.Length == 0) {
+                // Hide   
+                border.Visibility = System.Windows.Visibility.Collapsed;
+            } else {
+                border.Visibility = System.Windows.Visibility.Visible;
+            }
+
+            // Clear the list   
+            ResultStack.Children.Clear();
+
+            // Add the result   
+            foreach (string obj in data) {
+                if (obj.ToLower().StartsWith(query)) {
+                    // The word starts with this... Autocomplete must work   
+                    AddItem(obj);
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                ResultStack.Children.Add(new TextBlock() { Text = "No results found.", Margin = new Thickness(2, 1, 0, 1) });
+            }
+        }
+
+        private void AddItem(string text) {
+            TextBlock block = new TextBlock();
+
+            // Add the text   
+            block.Text = text;
+            block.HorizontalAlignment = HorizontalAlignment.Center;
+            block.FontSize = 20;
+
+            // A little style...   
+            block.Margin = new Thickness(2, 3, 2, 3);
+            block.Cursor = Cursors.Hand;
+
+            // Mouse events   
+            block.MouseLeftButtonUp += (sender, e) => {
+                SearchBox.Text = (sender as TextBlock).Text; // Dont know if we need this
+            };
+
+            block.MouseEnter += (sender, e) => {
+                TextBlock b = sender as TextBlock;
+                b.Background = new SolidColorBrush(Color.FromRgb(170, 170, 50));
+            };
+
+            block.MouseLeave += (sender, e) => {
+                TextBlock b = sender as TextBlock;
+                b.Background = Brushes.Transparent;
+            };
+
+            // Add to the panel   
+            ResultStack.Children.Add(block);
         }
     }
 }
