@@ -21,21 +21,13 @@ namespace CPSC481_Interface {
     public partial class MainWindow : Window {
 
         public ClassSection released;
+        private Random rand;
 
         public MainWindow() {
             InitializeComponent();
 
-            ClassSection section1 = new ClassSection(this, "Lecture");
-            Grid.SetRow(section1, 1);
-            Grid.SetColumn(section1, 1);
-            ScheduleGrid.Children.Add(section1);
-
-            ClassSection section2 = new ClassSection(this, "Tutorial");
-            Grid.SetRow(section2, 4);
-            Grid.SetColumn(section2, 6);
-            ScheduleGrid.Children.Add(section2);
-
             released = null;
+            rand = new Random();
         }
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -45,7 +37,7 @@ namespace CPSC481_Interface {
             }
         }
 
-        private bool IsHovering(Border b, Point p) {
+        private bool IsHoveringCell(Border b, Point p) {
             bool inX = b.Margin.Left <= p.X && b.Margin.Left + b.ActualWidth >= p.X;
             bool inY = b.Margin.Top <= p.Y && b.Margin.Top + b.ActualHeight >= p.Y;
             return inX && inY;
@@ -59,10 +51,10 @@ namespace CPSC481_Interface {
                         int col = Grid.GetColumn(b);
                         int row = Grid.GetRow(b);
                         Point p = Mouse.GetPosition(b);
-                        if (IsHovering(b, p)) {
+                        if (IsHoveringCell(b, p)) {
                             Grid.SetColumn(released, col);
                             Grid.SetRow(released, row);
-                            released.Margin = new Thickness(0);
+                            released.OnGridPlace();
                             released = null;
                             break;
                         }
@@ -91,6 +83,7 @@ namespace CPSC481_Interface {
             data.Add("LING 201");
             data.Add("CPSC 413");
             data.Add("PHIL 314");
+            data.Sort();
             return data;
         }
 
@@ -125,35 +118,27 @@ namespace CPSC481_Interface {
             }
         }
 
+        private Brush GetRandomBrush() {
+            byte r = (byte) rand.Next(0, 256);
+            byte g = (byte) rand.Next(0, 256);
+            byte b = (byte) rand.Next(0, 256);
+            return new SolidColorBrush(Color.FromRgb(r, g, b));
+        }
+
         private void AddItem(string text) {
-            TextBlock block = new TextBlock();
-          
-            // Add the text   
-            block.Text = text;
-            block.HorizontalAlignment = HorizontalAlignment.Center;
-            block.FontSize = 20;
-
-            // A little style...   
-            block.Margin = new Thickness(2, 3, 2, 3);
-            block.Cursor = Cursors.Hand;
-
-            // Mouse events   
-            block.MouseLeftButtonUp += (sender, e) => {
-                SearchBox.Text = (sender as TextBlock).Text; // Dont know if we need this
+            SearchItem item = new SearchItem(text, "Class Description goes here\nProfessors here\nTimes here");
+            ClassSection s1 = new ClassSection(this, "Lecture", item.Sections, text, GetRandomBrush());
+            item.Sections.Children.Add(s1);
+            item.ClassName.MouseLeftButtonDown += (sender, e) => {
+                foreach (UIElement ui in ResultStack.Children) {
+                    SearchItem si = ui as SearchItem;
+                    if (si != null) {
+                        si.SetExpanded(false);
+                    }
+                }
+                item.SetExpanded(true);
             };
-
-            block.MouseEnter += (sender, e) => {
-                TextBlock b = sender as TextBlock;
-                b.Background = new SolidColorBrush(Color.FromRgb(170, 170, 50));
-            };
-
-            block.MouseLeave += (sender, e) => {
-                TextBlock b = sender as TextBlock;
-                b.Background = Brushes.Transparent;
-            };
-
-            // Add to the panel   
-            ResultStack.Children.Add(block);
+            ResultStack.Children.Add(item);
         }
     }
 }

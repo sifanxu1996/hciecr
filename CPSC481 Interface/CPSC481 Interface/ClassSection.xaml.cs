@@ -19,31 +19,61 @@ namespace CPSC481_Interface {
     /// </summary>
     public partial class ClassSection : UserControl {
 
-        private Point offset;
-        private Thickness startPosition;
+        private Point offset, radius;
+        private Thickness startPosition, originalMargin;
         private MainWindow window;
+        private Panel originalParent;
+        private string name, type;
+        public Brush color;
+        private bool placedOnce;
 
-        public ClassSection(MainWindow Window, string Type) {
+        public ClassSection(MainWindow Window, string Type, Panel OriginalParent, string ClassName, Brush Color) {
             InitializeComponent();
 
             offset = new Point();
             window = Window;
             SectionType.Content = Type;
+
+            originalParent = OriginalParent;
+            originalMargin = Margin;
+
+            name = ClassName;
+            type = Type;
+            radius = new Point(BG.RadiusX, BG.RadiusY);
+            color = Color;
+            BG.Fill = Color;
+            placedOnce = false;
         }
 
         private void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
-            offset = Mouse.GetPosition(this);
-            startPosition = this.Margin;
-            this.CaptureMouse();
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                offset = Mouse.GetPosition(this);
+                startPosition = this.Margin;
+                this.CaptureMouse();
+
+                if (originalParent.Children.Contains(this)) {
+                    originalParent.Children.Remove(this);
+                }
+                if (!window.ScheduleGrid.Children.Contains(this)) {
+                    window.ScheduleGrid.Children.Add(this);
+                }
+
+                if (placedOnce) {
+                    BG.RadiusX = radius.X;
+                    BG.RadiusY = radius.Y;
+                }
+            }
         }
 
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e) {
-            this.ReleaseMouseCapture();
-            window.released = this;
+            if (e.LeftButton == MouseButtonState.Released) {
+                this.ReleaseMouseCapture();
+                window.released = this;
+            }
         }
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e) {
-            if (this.IsMouseCaptured) {
+            if (e.LeftButton == MouseButtonState.Pressed && this.IsMouseCaptured) {
                 Point delta = Mouse.GetPosition(this);
                 delta.Offset(-offset.X, -offset.Y);
 
@@ -57,7 +87,25 @@ namespace CPSC481_Interface {
         }
 
         public void ResetPosition() {
-            this.Margin = startPosition;
+            if (window.ScheduleGrid.Children.Contains(this)) {
+                window.ScheduleGrid.Children.Remove(this);
+            }
+            if (!originalParent.Children.Contains(this)) {
+                originalParent.Children.Add(this);
+            }
+            Margin = originalMargin;
+            SectionType.Content = type;
+            BG.RadiusX = radius.X;
+            BG.RadiusY = radius.Y;
+        }
+
+        public void OnGridPlace() {
+            // Make rectangle
+            BG.RadiusX = 0;
+            BG.RadiusY = 0;
+            Margin = new Thickness(0);
+            SectionType.Content = name;
+            placedOnce = true;
         }
     }
 }

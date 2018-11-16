@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CPSC481_Interface"
              mc:Ignorable="d" 
-             MouseDown="UserControl_MouseDown" MouseUp="UserControl_MouseUp" MouseMove="UserControl_MouseMove">
+             MouseDown="UserControl_MouseDown" MouseUp="UserControl_MouseUp" MouseMove="UserControl_MouseMove" Cursor="Hand">
     <Viewbox Stretch="Fill">
         <Grid>
-            <Rectangle Fill="#FFCF06" HorizontalAlignment="Center" Height="45" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center" Width="115" RadiusX="20" RadiusY="20"/>
+            <Rectangle x:Name="BG" Fill="#FFCF06" HorizontalAlignment="Center" Height="45" Stroke="Black" StrokeThickness="0.5" VerticalAlignment="Center" Width="115" RadiusX="20" RadiusY="20"/>
             <Label x:Name="SectionType" Content="Section" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
         </Grid>
     </Viewbox>
