@@ -104,7 +104,7 @@ namespace CPSC481_Interface {
             BG.RadiusX = 0;
             BG.RadiusY = 0;
             Margin = new Thickness(0);
-            SectionType.Content = name;
+            SectionType.Content = name + " " + type;
             placedOnce = true;
         }
     }
