@@ -61,7 +61,7 @@ namespace CPSC481_Interface {
                 if (placedOnce) {
                     BG.RadiusX = radius.X;
                     BG.RadiusY = radius.Y;
-                } // Commetnt
+                }
             }
         }
 
