@@ -173,5 +173,14 @@ namespace CPSC481_Interface {
             };
             ResultStack.Children.Add(item);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ConfirmationWin win = new ConfirmationWin(this);
+            win.Owner = this;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            win.ShowDialog();
+            
+        }
     }
 }

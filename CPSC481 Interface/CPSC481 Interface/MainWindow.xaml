@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CPSC481_Interface"
         mc:Ignorable="d"
-        Title="CourseRegistration" Height="720" Width="1080" MouseUp="Window_MouseUp">
+        Title="CourseRegistration" Height="720" Width="1080" MouseUp="Window_MouseUp"
+        WindowState="Maximized">
+
     <Grid Background="#FFCF06" x:Name="ProgramWindow">
 
         <Grid.ColumnDefinitions>
@@ -17,7 +19,7 @@
         <!-- Courses -->
         <Grid Grid.Column="0" Background="#E42526">
             <TextBlock Text="COURSES" TextAlignment="Center" FontSize="25" FontWeight="Bold" Margin="0,5,0,0" />
-            <Button Content="Confirm Enrollment" Height ="50" VerticalAlignment="Bottom" Margin="10,0,10,10" FontSize="15" />
+            <Button Content="Confirm Enrollment" Height ="50" VerticalAlignment="Bottom" Margin="10,0,10,10" FontSize="15" Click="Button_Click" />
         </Grid>
 
         <!-- Search -->
