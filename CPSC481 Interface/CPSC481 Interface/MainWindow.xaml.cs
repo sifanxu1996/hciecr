@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Image = System.Windows.Controls.Image;
 
 namespace CPSC481_Interface {
 
@@ -46,12 +47,22 @@ namespace CPSC481_Interface {
 
         public ClassSection released;
         private Random rand;
+       // private Image trash;
+        //private BitmapImage t1, t2;
 
         public MainWindow() {
             InitializeComponent();
 
             released = null;
             rand = new Random();
+          //  t1 = new BitmapImage(new Uri("pack://application:,,,/Icons/tstuff.png"));
+          //  t2 = new BitmapImage(new Uri("pack://application:,,,/Icons/trash.png"));
+            
+            //trash = new Image();
+           // trash.Source = t2;
+           // BGGrid.Children.Add(trash);
+           // trash.MouseEnter += Trash_MouseEnter;
+            //trash.MouseLeave += Trash_MouseLeave;
         }
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -173,5 +184,16 @@ namespace CPSC481_Interface {
             };
             ResultStack.Children.Add(item);
         }
+
+      /*  private void Trash_MouseLeave(object sender, MouseEventArgs e)
+        {
+            (sender as Image).Source = t2;
+        }
+
+        private void Trash_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (sender as Image).Source = t1;
+        }*/
     }
+    
 }

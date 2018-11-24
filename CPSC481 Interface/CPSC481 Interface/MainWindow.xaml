@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:CPSC481_Interface"
         mc:Ignorable="d"
         Title="CourseRegistration" Height="720" Width="1080" MouseUp="Window_MouseUp">
+
     <Grid Background="#FFCF06" x:Name="ProgramWindow">
 
         <Grid.ColumnDefinitions>
@@ -29,7 +30,21 @@
                 </ScrollViewer>
             </Border>
         </StackPanel>
+        
+        <!--<Image Grid.Column="1" x:Name="BGGrid" Source="pack://application:,,,/Icons/trash.png" Margin="60,536,70,29" RenderTransformOrigin="0.829,0.044"/>-->
 
+        <Image Grid.Column="1" Margin="60,536,70,29" RenderTransformOrigin="0.829,0.044">
+            <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                    <Setter Property="Source" Value="pack://application:,,,/Icons/trash.png"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Source" Value="pack://application:,,,/Icons/tstuff.png"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
         <!-- Calendar -->
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
