@@ -74,6 +74,24 @@ namespace CPSC481_Interface {
             }
         }
 
+        // generates class sections on calendar when mouse hovers over ClassSection
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            TimeSlot[] lectureSlots = this.data.timeSlots;
+
+            for (int i = 0; i < lectureSlots.Length; i++) {
+                int[] daySlots = lectureSlots[i].days;
+                int startTime = lectureSlots[i].startTime;
+                int duration = lectureSlots[i].duration;
+
+                for (int j = 0; j < daySlots.Length; j++) {
+                    Grid.SetColumn(this, lectureSlots[i].days[j]);
+                    Grid.SetRow(this, data.timeSlots[i].startTime);
+                    this.OnGridPlace();
+                }
+            }
+        }
+
         private void UserControl_MouseMove(object sender, MouseEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed && this.IsMouseCaptured) {
                 Point delta = Mouse.GetPosition(this);
@@ -101,8 +119,8 @@ namespace CPSC481_Interface {
             BG.RadiusY = radius.Y;
         }
 
+        // Make rectangle
         public void OnGridPlace() {
-            // Make rectangle
             BG.RadiusX = 0;
             BG.RadiusY = 0;
             Margin = new Thickness(0);

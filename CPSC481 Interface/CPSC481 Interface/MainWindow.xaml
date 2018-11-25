@@ -48,7 +48,7 @@
             </WrapPanel>
 
 
-            <Grid Grid.Row="1" Background="White" x:Name="ScheduleGrid" MouseUp="ScheduleGrid_MouseUp">
+            <Grid Grid.Row="1" Background="White" x:Name="ScheduleGrid" x:FieldModifier="public" MouseUp="ScheduleGrid_MouseUp">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.3*" />
                     <RowDefinition Height="*" />
