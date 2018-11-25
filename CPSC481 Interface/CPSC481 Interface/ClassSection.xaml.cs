@@ -25,9 +25,10 @@ namespace CPSC481_Interface {
         private Panel originalParent;
         private string name, type;
         public Brush color;
+        public ClassData data;
         private bool placedOnce;
 
-        public ClassSection(MainWindow Window, string Type, Panel OriginalParent, string ClassName, Brush Color) {
+        public ClassSection(MainWindow Window, string Type, Panel OriginalParent, string ClassName, Brush Color, ClassData Data) {
             InitializeComponent();
 
             offset = new Point();
@@ -38,6 +39,7 @@ namespace CPSC481_Interface {
             originalMargin = Margin;
 
             name = ClassName;
+            data = Data;
             type = Type;
             radius = new Point(BG.RadiusX, BG.RadiusY);
             color = Color;

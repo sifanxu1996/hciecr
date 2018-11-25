@@ -16,17 +16,32 @@ using System.Windows.Shapes;
 
 namespace CPSC481_Interface {
 
+    public class timeSlot {
+        public int[] days;
+        public int startTime;
+        public int duration;
+
+        public timeSlot(int[] days, int startTime, int duration) {
+            this.days = days;
+            this.startTime = startTime;
+            this.duration = duration;
+        }
+
+    }
+
     public class ClassData {
 
         public string name, title, description, professor, times;
+        public timeSlot[] timeSlots;
         public bool hasTutorial;
 
-        public ClassData(string name, string title, string description, string professor, string times, bool hasTutorial) {
+        public ClassData(string name, string title, string description, string professor, string times, timeSlot[] timeSlots, bool hasTutorial) {
             this.name = name;
             this.title = title;
             this.description = description;
             this.professor = professor;
             this.times = times;
+            this.timeSlots = timeSlots;
             this.hasTutorial = hasTutorial;
         }
 
@@ -67,6 +82,23 @@ namespace CPSC481_Interface {
             return inX && inY;
         }
 
+        // returns true if course section available at that particular row, col
+        private bool CellMatches(ClassSection released, int col, int row) {
+            timeSlot[] lectureSlots = released.data.timeSlots;
+
+            for (int i = 0; i < lectureSlots.Length; i++) {
+                int[] daySlots = lectureSlots[i].days;
+                int startTime = lectureSlots[i].startTime;
+                int duration = lectureSlots[i].duration;
+
+                if (daySlots.Contains(col) && startTime == row) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void ScheduleGrid_MouseUp(object sender, MouseButtonEventArgs e) {
             if (released != null) {
                 foreach (UIElement ui in ScheduleGrid.Children) {
@@ -75,7 +107,7 @@ namespace CPSC481_Interface {
                         int col = Grid.GetColumn(b);
                         int row = Grid.GetRow(b);
                         Point p = Mouse.GetPosition(b);
-                        if (IsHoveringCell(b, p)) {
+                        if (IsHoveringCell(b, p) && CellMatches(released, col, row)) {
                             Grid.SetColumn(released, col);
                             Grid.SetRow(released, row);
                             released.OnGridPlace();
@@ -100,9 +132,10 @@ namespace CPSC481_Interface {
         }
 
         private List<ClassData> GetData() {
+
             List<ClassData> data = new List<ClassData>();
-            data.Add(new ClassData("CPSC 231", "Introduction to Computer Science for Computer Science Majors I", "Introduction to problem solving, the analysis and design of small-scale computational systems, and implementation using a procedural programming language. For computer science majors.", "Nathaly Verwaal", "10AM-10:50AM MWF, 11:00AM-12:15PM TR", true));
-            data.Add(new ClassData("CPSC 413", "Design and Analysis of Algorithms I", "Techniques for the analysis of algorithms, including counting, summation, recurrences, and asymptotic relations; techniques for the design of efficient algorithms, including greedy methods, divide and conquer, and dynamic programming; examples of their application; an introduction to tractable and intractable problems.", "Peter Hoyer", "9:30AM-10:45AM TR", true));
+            data.Add(new ClassData("CPSC 231", "Introduction to Computer Science for Computer Science Majors I", "Introduction to problem solving, the analysis and design of small-scale computational systems, and implementation using a procedural programming language. For computer science majors.", "Nathaly Verwaal", "10AM-10:50AM MWF, 11:00AM-12:15PM TR", new timeSlot[] {new timeSlot(new int[] {1,3,5}, 3, 4), new timeSlot(new int[] {2,4}, 4, 5)}, true));
+            /*data.Add(new ClassData("CPSC 413", "Design and Analysis of Algorithms I", "Techniques for the analysis of algorithms, including counting, summation, recurrences, and asymptotic relations; techniques for the design of efficient algorithms, including greedy methods, divide and conquer, and dynamic programming; examples of their application; an introduction to tractable and intractable problems.", "Peter Hoyer", "9:30AM-10:45AM TR", true));
             data.Add(new ClassData("CPSC 481", "Human-Computer Interaction I", "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.", "Ehud Sharlin", "10AM-10:50AM MWF", true));
 
             data.Add(new ClassData("MATH 211", "Linear Methods I", "Systems of equations and matrices, vectors, matrix representations and determinants. Complex numbers, polar form, eigenvalues, eigenvectors. Applications.", "Thi Dinh", "1PM-1:50PM MWF, 3:00PM-4:15PM TR", true));
@@ -110,7 +143,7 @@ namespace CPSC481_Interface {
             data.Add(new ClassData("LING 201", "Introduction to Linguistics I", "Introduction to the scientific study of language, including the analysis of word, sentence, and sound structure, and the exploration of language as a human, biological, social, and historical phenomenon.", "Stephen Winters", "2:00PM-2:50PM MWF", false));
 
             data.Add(new ClassData("PHIL 314", "Information Technology Ethics", "A critical and analytical examination of ethical and legal problems arising in and about information technology. May include hacking, online privacy, intellectual property rights, artificial intelligence, globalization and regulation issues, cheating in online games, and others.", "Reid Buchanan", "2:00PM-3:15PM TR", false));
-
+            */
             data.Sort(ClassData.CompareClassData);
             return data;
         }
@@ -153,13 +186,14 @@ namespace CPSC481_Interface {
             return new SolidColorBrush(Color.FromRgb(r, g, b));
         }
 
+        // Generate the Course selectors for drag-and-drop onto the schedule
         private void AddItem(ClassData data) {
             Brush brush = GetRandomBrush();
             SearchItem item = new SearchItem(data.name, data.ToString());
-            ClassSection lecture = new ClassSection(this, "Lecture", item.Sections, data.name, brush);
+            ClassSection lecture = new ClassSection(this, "Lecture", item.Sections, data.name, brush, data);
             item.Sections.Children.Add(lecture);
             if (data.hasTutorial) {
-                ClassSection tutorial = new ClassSection(this, "Tutorial", item.Sections, data.name, brush);
+                ClassSection tutorial = new ClassSection(this, "Tutorial", item.Sections, data.name, brush, data);
                 item.Sections.Children.Add(tutorial);
             }
             item.ClassName.MouseLeftButtonDown += (sender, e) => {
