@@ -85,9 +85,10 @@ namespace CPSC481_Interface {
                 int duration = lectureSlots[i].duration;
 
                 for (int j = 0; j < daySlots.Length; j++) {
-                    Grid.SetColumn(this, lectureSlots[i].days[j]);
-                    Grid.SetRow(this, data.timeSlots[i].startTime);
-                    this.OnGridPlace();
+
+                    //Grid.SetColumn(this, lectureSlots[i].days[j]);
+                    //Grid.SetRow(this, data.timeSlots[i].startTime);
+                    //this.OnGridPlace();
                 }
             }
         }
