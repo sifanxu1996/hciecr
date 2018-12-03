@@ -61,9 +61,13 @@
     <Compile Include="GridSection.xaml.cs">
       <DependentUpon>GridSection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PageW2019.xaml.cs">
+      <DependentUpon>PageW2019.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SearchItem.xaml.cs">
       <DependentUpon>SearchItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switcher.cs" />
     <Page Include="ClassSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -91,6 +95,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PageW2019.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SearchItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

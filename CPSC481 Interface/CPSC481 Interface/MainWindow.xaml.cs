@@ -64,12 +64,15 @@ namespace CPSC481_Interface {
 
         public ClassSection released;
         private Random rand;
+        PageW2019 pageW2019 = new PageW2019();
 
         public MainWindow() {
             InitializeComponent();
 
             released = null;
             rand = new Random();
+
+            Switcher.pageSwitcher = this;
         }
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -225,6 +228,16 @@ namespace CPSC481_Interface {
                     }
                 }
             }
+        }
+
+        public void Navigate(UserControl nextPage)
+        {
+            this.Content = nextPage;
+        }
+
+        private void CheckedW2019(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(pageW2019);
         }
     }
 }
