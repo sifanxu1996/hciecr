@@ -26,30 +26,57 @@ namespace CPSC481_Interface {
         private string name, type;
         public Brush color;
         public ClassData data;
-        private bool placedOnce;
+        public bool isTutorial;
+        private bool placedOnce, onGrid;
+        private GridSection[][] sections;
 
-        public ClassSection(MainWindow Window, string Type, Panel OriginalParent, string ClassName, Brush Color, ClassData Data) {
+        public ClassSection(MainWindow Window, bool IsTutorial, Panel OriginalParent, ClassData Data, Brush Color) {
             InitializeComponent();
 
             offset = new Point();
             window = Window;
-            SectionType.Content = Type;
 
             originalParent = OriginalParent;
             originalMargin = Margin;
 
-            name = ClassName;
             data = Data;
-            type = Type;
+            isTutorial = IsTutorial;
+            name = data.name;
+            type = (IsTutorial) ? "Tutorial" : "Lecture";
+            SectionType.Content = type;
             radius = new Point(BG.RadiusX, BG.RadiusY);
             color = Color;
             BG.Fill = Color;
             placedOnce = false;
+            onGrid = false;
+
+            TimeSlot[] slots = (IsTutorial) ? Data.tutorialSlots : Data.timeSlots;
+
+            sections = new GridSection[slots.Length][];
+            for (int j = 0; j < slots.Length; j++) {
+                TimeSlot t = slots[j];
+                GridSection[] gs = new GridSection[t.days.Length];
+                for (int i = 0; i < t.days.Length; i++) {
+                    GridSection g = new GridSection(this, name, type, color);
+                    Grid.SetRow(g, t.startTime);
+                    Grid.SetColumn(g, t.days[i]);
+                    Grid.SetRowSpan(g, t.duration);
+                    gs[i] = g;
+                    window.ScheduleGrid.Children.Add(g);
+                }
+                foreach (GridSection g in gs) {
+                    g.SetConnected(gs);
+                }
+                if (gs.Length > 0) {
+                    gs[0].HideConnected();
+                }
+                sections[j] = gs;
+            }
         }
 
-        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
+        public void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
-                offset = Mouse.GetPosition(this);
+                offset = new Point(ActualWidth / 2, ActualHeight / 2);
                 startPosition = this.Margin;
                 this.CaptureMouse();
 
@@ -64,6 +91,15 @@ namespace CPSC481_Interface {
                     BG.RadiusX = radius.X;
                     BG.RadiusY = radius.Y;
                 }
+
+                onGrid = false;
+                foreach (GridSection[] gs in sections) {
+                    if (gs.Length > 0) {
+                        gs[0].ShowConnected();
+                        gs[0].SetStay(false);
+                        gs[0].ShadowConnected();
+                    }
+                }
             }
         }
 
@@ -75,20 +111,20 @@ namespace CPSC481_Interface {
         }
 
         // generates class sections on calendar when mouse hovers over ClassSection
-        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
-        {
-            TimeSlot[] lectureSlots = this.data.timeSlots;
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e) {
+            if (!onGrid) {
+                foreach (GridSection[] gs in sections) {
+                    if (gs.Length > 0) {
+                        gs[0].ShowConnected();
+                    }
+                }
+            }
+        }
 
-            for (int i = 0; i < lectureSlots.Length; i++) {
-                int[] daySlots = lectureSlots[i].days;
-                int startTime = lectureSlots[i].startTime;
-                int duration = lectureSlots[i].duration;
-
-                for (int j = 0; j < daySlots.Length; j++) {
-
-                    //Grid.SetColumn(this, lectureSlots[i].days[j]);
-                    //Grid.SetRow(this, data.timeSlots[i].startTime);
-                    //this.OnGridPlace();
+        private void UserControl_MouseLeave(object sender, MouseEventArgs e) {
+            foreach (GridSection[] gs in sections) {
+                if (gs.Length > 0) {
+                    gs[0].HideConnected();
                 }
             }
         }
@@ -118,6 +154,15 @@ namespace CPSC481_Interface {
             SectionType.Content = type;
             BG.RadiusX = radius.X;
             BG.RadiusY = radius.Y;
+            onGrid = false;
+
+            for (int i = 0; i < sections.Length; i++) {
+                for (int j = 0; j < sections[i].Length; j++) {
+                    GridSection g = sections[i][j];
+                    g.SetStay(false);
+                    g.ShadowConnected();
+                }
+            }
         }
 
         // Make rectangle
@@ -127,6 +172,24 @@ namespace CPSC481_Interface {
             Margin = new Thickness(0);
             SectionType.Content = name + " " + type;
             placedOnce = true;
+            onGrid = true;
+
+            for (int i = 0; i < sections.Length; i++) {
+                for (int j = 0; j < sections[i].Length; j++) {
+                    GridSection g = sections[i][j];
+                    if (Grid.GetRow(g) == Grid.GetRow(this) && Grid.GetColumn(g) == Grid.GetColumn(this)) {
+                        Grid.SetRowSpan(this, Grid.GetRowSpan(g));
+                        g.SetStay(true);
+                        g.HighlightConnected();
+                        g.ShowConnected();
+                        break;
+                    } else {
+                        g.SetStay(false);
+                        g.ShadowConnected();
+                        g.HideConnected();
+                    }
+                }
+            }
         }
     }
 }

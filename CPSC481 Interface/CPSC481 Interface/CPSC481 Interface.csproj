@@ -58,6 +58,9 @@
     <Compile Include="ConfirmationWin.xaml.cs">
       <DependentUpon>ConfirmationWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GridSection.xaml.cs">
+      <DependentUpon>GridSection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SearchItem.xaml.cs">
       <DependentUpon>SearchItem.xaml</DependentUpon>
     </Compile>
@@ -68,6 +71,10 @@
     <Page Include="ConfirmationWin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GridSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
