@@ -13,27 +13,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CPSC481_Interface
-{
+namespace CPSC481_Interface {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ConfirmationWin : Window
-    {
+    public partial class ConfirmationWin : Window {
         private MainWindow window;
-        public ConfirmationWin(MainWindow Window)
-        {
+        public ConfirmationWin(MainWindow Window) {
             InitializeComponent();
             window = Window;
         }
 
-        private void btnYes_Click(object sender, RoutedEventArgs e)
-        {
+        private void btnYes_Click(object sender, RoutedEventArgs e) {
             Close();
         }
 
-        private void btnNo_Click(object sender, RoutedEventArgs e)
-        {
+        private void btnNo_Click(object sender, RoutedEventArgs e) {
             Close();
         }
     }

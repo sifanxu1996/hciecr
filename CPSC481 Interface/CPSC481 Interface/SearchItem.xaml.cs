@@ -20,7 +20,7 @@ namespace CPSC481_Interface {
     public partial class SearchItem : UserControl {
 
         private bool expanded;
-        private Brush highlight, normal;
+        private Brush highlight, transparent, selected;
 
         public SearchItem(string Name, string DescriptionText) {
             InitializeComponent();
@@ -29,17 +29,18 @@ namespace CPSC481_Interface {
             Description.Text = DescriptionText;
 
             expanded = false;
-            normal = Brushes.Transparent;
-            highlight = new SolidColorBrush(Color.FromRgb(170, 170, 50));
+            transparent = Brushes.Transparent;
+            highlight = new SolidColorBrush(Color.FromRgb(170, 50, 50));
+            selected = new SolidColorBrush(Color.FromRgb(200, 80, 80));
         }
 
         public void SetExpanded(bool visible) {
             if (visible) {
-                Background = highlight;
+                Background = selected;
                 Sections.Visibility = Visibility.Visible;
                 Description.Visibility = Visibility.Visible;
             } else {
-                Background = normal;
+                Background = transparent;
                 Sections.Visibility = Visibility.Collapsed;
                 Description.Visibility = Visibility.Collapsed;
             }
@@ -57,7 +58,7 @@ namespace CPSC481_Interface {
         }
 
         private void UserControl_MouseLeave(object sender, MouseEventArgs e) {
-            SetBackground(normal);
+            SetBackground(transparent);
         }
     }
 }
