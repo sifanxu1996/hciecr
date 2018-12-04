@@ -19,15 +19,13 @@ namespace CPSC481_Interface {
     // TimeSlot class
     public class TimeSlot {
         public int[] days;
-        public int startTime;
-        public int duration;
+        public float startTime, duration;
 
-        public TimeSlot(int[] days, int startTime, int duration) {
+        public TimeSlot(int[] days, float startTime, int duration) {
             this.days = days;
             this.startTime = startTime;
-            this.duration = duration;
+            this.duration = duration / 60f;
         }
-
     }
 
     // ClassData class
@@ -76,12 +74,19 @@ namespace CPSC481_Interface {
             rand = new Random();
 
             classColors = new Brush[6];
-            for (int i = 0; i < classColors.Length; i++) {
-                classColors[i] = GetRandomBrush();
-            }
+            classColors[0] = CreateBrush(75, 163, 255);  // Blue
+            classColors[1] = CreateBrush(191, 0, 255);   // Yellow
+            classColors[2] = CreateBrush(116, 195, 101); // Green
+            classColors[3] = CreateBrush(253, 255, 0);   // Purple
+            classColors[4] = CreateBrush(255, 36, 0);    // Red
+            classColors[5] = CreateBrush(255, 159, 0);   // Orange
 
             classes = GetClasses();
             CreateSearchItems();
+        }
+
+        private Brush CreateBrush(byte r, byte g, byte b) {
+            return new SolidColorBrush(Color.FromRgb(r, g, b));
         }
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -106,8 +111,13 @@ namespace CPSC481_Interface {
                     if (gs != null) {
                         Point p = Mouse.GetPosition(gs);
                         if (IsHoveringGridSection(gs, p) && gs.parentClass == released) {
-                            Grid.SetColumn(released, Grid.GetColumn(gs));
                             Grid.SetRow(released, Grid.GetRow(gs));
+                            Grid.SetColumn(released, Grid.GetColumn(gs));
+                            Grid.SetRowSpan(released, Grid.GetRowSpan(gs));
+                            Grid.SetZIndex(released, Grid.GetZIndex(gs) - 10);
+                            released.VerticalAlignment = VerticalAlignment.Top;
+                            released.Height = gs.Height;
+                            released.Margin = gs.Margin;
                             released.OnGridPlace();
                             released = null;
                             break;
@@ -131,12 +141,12 @@ namespace CPSC481_Interface {
 
         // generate list of available courses
         private List<ClassData> GetClasses() {
-            ClassData cpsc231 = new ClassData("CPSC 231", "Introduction to Computer Science for Computer Science Majors I", "Introduction to problem solving, the analysis and design of small-scale computational systems, and implementation using a procedural programming language. For computer science majors.", "Nathaly Verwaal", "10AM-10:50AM MWF, 11:00AM-12:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 3, 1), new TimeSlot(new int[] { 2, 4 }, 4, 1) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 4, 1), new TimeSlot(new int[] { 5 }, 1, 2) });
-            ClassData cpsc413 = new ClassData("CPSC 413", "Design and Analysis of Algorithms I", "Techniques for the analysis of algorithms, including counting, summation, recurrences, and asymptotic relations; techniques for the design of efficient algorithms, including greedy methods, divide and conquer, and dynamic programming; examples of their application; an introduction to tractable and intractable problems.", "Peter Hoyer", "9:30AM-10:45AM TR", new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 2, 2) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 4, 1), new TimeSlot(new int[] { 1, 3 }, 4, 1) });
-            ClassData cpsc481 = new ClassData("CPSC 481", "Human-Computer Interaction I", "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.", "Ehud Sharlin", "10AM-10:50AM MWF", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 3, 1) }, true, new TimeSlot[] { new TimeSlot(new int[] { 1 }, 5, 2), new TimeSlot(new int[] { 5 }, 5, 2) });
-            ClassData math211 = new ClassData("MATH 211", "Linear Methods I", "Systems of equations and matrices, vectors, matrix representations and determinants. Complex numbers, polar form, eigenvalues, eigenvectors. Applications.", "Thi Dinh", "1PM-1:50PM MWF, 3:00PM-4:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 6, 1), new TimeSlot(new int[] { 2, 4 }, 8, 2) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 1, 1), new TimeSlot(new int[] { 2, 4 }, 2, 1) });
-            ClassData ling201 = new ClassData("LING 201", "Introduction to Linguistics I", "Introduction to the scientific study of language, including the analysis of word, sentence, and sound structure, and the exploration of language as a human, biological, social, and historical phenomenon.", "Stephen Winters", "2:00PM-2:50PM MWF", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 7, 1) }, false, null);
-            ClassData phil314 = new ClassData("PHIL 314", "Information Technology Ethics", "A critical and analytical examination of ethical and legal problems arising in and about information technology. May include hacking, online privacy, intellectual property rights, artificial intelligence, globalization and regulation issues, cheating in online games, and others.", "Reid Buchanan", "2:00PM-3:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 7, 2) }, false, null);
+            ClassData cpsc231 = new ClassData("CPSC 231", "Introduction to Computer Science for Computer Science Majors I", "Introduction to problem solving, the analysis and design of small-scale computational systems, and implementation using a procedural programming language. For computer science majors.", "Nathaly Verwaal", "10AM-10:50AM MWF, 11:00AM-12:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 3, 60), new TimeSlot(new int[] { 2, 4 }, 4, 75) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 4, 60), new TimeSlot(new int[] { 5 }, 1, 120) });
+            ClassData cpsc413 = new ClassData("CPSC 413", "Design and Analysis of Algorithms I", "Techniques for the analysis of algorithms, including counting, summation, recurrences, and asymptotic relations; techniques for the design of efficient algorithms, including greedy methods, divide and conquer, and dynamic programming; examples of their application; an introduction to tractable and intractable problems.", "Peter Hoyer", "9:30AM-10:45AM TR", new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 2.5f, 90) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 4, 60), new TimeSlot(new int[] { 1, 3 }, 4, 60) });
+            ClassData cpsc481 = new ClassData("CPSC 481", "Human-Computer Interaction I", "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.", "Ehud Sharlin", "10AM-10:50AM MWF", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 3, 60) }, true, new TimeSlot[] { new TimeSlot(new int[] { 1 }, 5, 120), new TimeSlot(new int[] { 5 }, 5, 120) });
+            ClassData math211 = new ClassData("MATH 211", "Linear Methods I", "Systems of equations and matrices, vectors, matrix representations and determinants. Complex numbers, polar form, eigenvalues, eigenvectors. Applications.", "Thi Dinh", "1PM-1:50PM MWF, 2:00PM-3:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 6, 60), new TimeSlot(new int[] { 2, 4 }, 7, 75) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 1, 60), new TimeSlot(new int[] { 2, 4 }, 2, 60) });
+            ClassData ling201 = new ClassData("LING 201", "Introduction to Linguistics I", "Introduction to the scientific study of language, including the analysis of word, sentence, and sound structure, and the exploration of language as a human, biological, social, and historical phenomenon.", "Stephen Winters", "2:00PM-2:50PM MWF", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 7, 60) }, false, null);
+            ClassData phil314 = new ClassData("PHIL 314", "Information Technology Ethics", "A critical and analytical examination of ethical and legal problems arising in and about information technology. May include hacking, online privacy, intellectual property rights, artificial intelligence, globalization and regulation issues, cheating in online games, and others.", "Reid Buchanan", "2:00PM-3:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 7, 75) }, false, null);
 
             List<ClassData> data = new List<ClassData>(new ClassData[] { cpsc231, cpsc413, cpsc481, math211, ling201, phil314 });
             data = Shuffle(data);
@@ -190,36 +200,34 @@ namespace CPSC481_Interface {
             }
         }
 
-        // generating random brushes for courses
-        private Brush GetRandomBrush() {
-            byte r = (byte) rand.Next(0, 256);
-            byte g = (byte) rand.Next(0, 256);
-            byte b = (byte) rand.Next(0, 256);
-            return new SolidColorBrush(Color.FromRgb(r, g, b));
-        }
-
         private void CreateSearchItems() {
             items = new SearchItem[classes.Count];
             for (int i = 0; i < items.Length; i++) {
                 ClassData data = classes[i];
                 SearchItem item = new SearchItem(data.name, data.ToString() + "\n\nDrag and drop the elements below to\nthe calendar on the right");
-                ClassSection lecture = new ClassSection(this, false, item.Sections, data, data.brush);
+                ClassSection lecture = new ClassSection(this, false, item.Sections, data, data.brush, item);
                 item.Sections.Children.Add(lecture);
                 if (data.hasTutorial) {
-                    ClassSection tutorial = new ClassSection(this, true, item.Sections, data, data.brush);
+                    ClassSection tutorial = new ClassSection(this, true, item.Sections, data, data.brush, item);
                     item.Sections.Children.Add(tutorial);
                 }
                 item.ClassName.MouseLeftButtonDown += (sender, e) => {
-                    foreach (UIElement ui in ResultStack.Children) {
-                        SearchItem si = ui as SearchItem;
-                        if (si != null) {
-                            si.SetExpanded(false);
-                        }
-                    }
-                    item.SetExpanded(true);
+                    ExpandSearchItem(item);
                 };
                 items[i] = item;
             }
+        }
+
+        public void ExpandSearchItem(SearchItem s) {
+            SearchBox.Text = s.ClassName.Content.ToString().Split(' ')[0];
+            SearchBox_KeyUp(this, null);
+            foreach (UIElement ui in ResultStack.Children) {
+                SearchItem si = ui as SearchItem;
+                if (si != null) {
+                    si.SetExpanded(false);
+                }
+            }
+            s.SetExpanded(true);
         }
 
         // confirmation window
@@ -232,7 +240,9 @@ namespace CPSC481_Interface {
 
         private bool IsHoveringGridSection(GridSection gs, Point p) {
             bool inX = gs.Margin.Left <= p.X && gs.Margin.Left + gs.ActualWidth >= p.X;
-            bool inY = gs.Margin.Top <= p.Y && gs.Margin.Top + gs.ActualHeight >= p.Y;
+            bool a = gs.Margin.Top <= p.Y;
+            bool b = gs.ActualHeight >= p.Y;
+            bool inY = a && b;
             return inX && inY;
         }
 

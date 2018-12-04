@@ -29,15 +29,19 @@ namespace CPSC481_Interface {
         public bool isTutorial;
         private bool placedOnce, onGrid;
         private GridSection[][] sections;
+        private double originalHeight;
+        private SearchItem searchParent;
 
-        public ClassSection(MainWindow Window, bool IsTutorial, Panel OriginalParent, ClassData Data, Brush Color) {
+        public ClassSection(MainWindow Window, bool IsTutorial, Panel OriginalParent, ClassData Data, Brush Color, SearchItem SearchParent) {
             InitializeComponent();
 
             offset = new Point();
             window = Window;
+            searchParent = SearchParent;
 
             originalParent = OriginalParent;
             originalMargin = Margin;
+            originalHeight = Height;
 
             data = Data;
             isTutorial = IsTutorial;
@@ -58,9 +62,16 @@ namespace CPSC481_Interface {
                 GridSection[] gs = new GridSection[t.days.Length];
                 for (int i = 0; i < t.days.Length; i++) {
                     GridSection g = new GridSection(this, name, type, color);
-                    Grid.SetRow(g, t.startTime);
+                    Grid.SetRow(g, (int) Math.Floor(t.startTime));
                     Grid.SetColumn(g, t.days[i]);
-                    Grid.SetRowSpan(g, t.duration);
+                    Grid.SetRowSpan(g, (int) Math.Ceiling(t.duration));
+                    g.VerticalAlignment = VerticalAlignment.Top;
+                    double defaultHeight = 116.5;
+                    double height = t.duration * defaultHeight;
+                    g.Height = height;
+                    Thickness thickness = new Thickness(0);
+                    thickness.Top = (t.startTime - Math.Floor(t.startTime)) * defaultHeight;
+                    g.Margin = thickness;
                     gs[i] = g;
                     window.ScheduleGrid.Children.Add(g);
                 }
@@ -76,6 +87,9 @@ namespace CPSC481_Interface {
 
         public void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
+                Grid.SetZIndex(this, 1);
+                window.ExpandSearchItem(searchParent);
+
                 offset = new Point(ActualWidth / 2, ActualHeight / 2);
                 startPosition = this.Margin;
                 this.CaptureMouse();
@@ -104,7 +118,7 @@ namespace CPSC481_Interface {
         }
 
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Released) {
+            if (e.LeftButton == MouseButtonState.Released && e.ChangedButton == MouseButton.Left) {
                 this.ReleaseMouseCapture();
                 window.released = this;
             }
@@ -151,6 +165,7 @@ namespace CPSC481_Interface {
                 originalParent.Children.Add(this);
             }
             Margin = originalMargin;
+            Height = originalHeight;
             SectionType.Content = type;
             BG.RadiusX = radius.X;
             BG.RadiusY = radius.Y;
@@ -169,7 +184,6 @@ namespace CPSC481_Interface {
         public void OnGridPlace() {
             BG.RadiusX = 0;
             BG.RadiusY = 0;
-            Margin = new Thickness(0);
             SectionType.Content = name + " " + type;
             placedOnce = true;
             onGrid = true;

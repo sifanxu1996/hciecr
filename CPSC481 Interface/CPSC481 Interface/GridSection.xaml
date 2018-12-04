@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CPSC481_Interface"
-             mc:Ignorable="d" MouseDown="UserControl_MouseDown">
+             mc:Ignorable="d" MouseDown="UserControl_MouseDown" Cursor="Hand">
     <Grid>
         <Rectangle x:Name="BG" Fill="#FFCF06" Stroke="Black" StrokeThickness="0.5"/>
         <Label x:Name="SectionType" Content="Section" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
