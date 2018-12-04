@@ -6,10 +6,8 @@
              xmlns:local="clr-namespace:CPSC481_Interface"
              mc:Ignorable="d" 
              MouseDown="UserControl_MouseDown" MouseUp="UserControl_MouseUp" MouseMove="UserControl_MouseMove" Cursor="Hand" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
-    <Viewbox Stretch="Fill">
-        <Grid>
-            <Rectangle x:Name="BG" Fill="#FFCF06" Stroke="Black" StrokeThickness="0.5" RadiusX="15" RadiusY="15"/>
-            <Label x:Name="SectionType" Content="Section" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-        </Grid>
-    </Viewbox>
+    <Grid>
+        <Rectangle x:Name="BG" Fill="#FFCF06" Stroke="Black" StrokeThickness="0.5" RadiusX="5" RadiusY="5"/>
+        <Label x:Name="SectionType" Content="Section" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+    </Grid>
 </UserControl>
