@@ -47,22 +47,25 @@ namespace CPSC481_Interface {
 
         public ClassSection released;
         private Random rand;
-       // private Image trash;
-        //private BitmapImage t1, t2;
+        private BitmapImage t1, t2;
 
         public MainWindow() {
             InitializeComponent();
 
             released = null;
             rand = new Random();
-          //  t1 = new BitmapImage(new Uri("pack://application:,,,/Icons/tstuff.png"));
-          //  t2 = new BitmapImage(new Uri("pack://application:,,,/Icons/trash.png"));
-            
-            //trash = new Image();
-           // trash.Source = t2;
-           // BGGrid.Children.Add(trash);
-           // trash.MouseEnter += Trash_MouseEnter;
-            //trash.MouseLeave += Trash_MouseLeave;
+
+            t1 = new BitmapImage(new Uri("pack://application:,,,/Icons/tstuff.png"));
+            t2 = new BitmapImage(new Uri("pack://application:,,,/Icons/trash.png"));
+
+            Image trash = new Image();
+            trash.Source = t2;
+            Grid.SetColumn(trash, 1);
+            trash.Margin = new Thickness(60, 536, 70, 29);
+            trash.RenderTransformOrigin = new Point(0.829, 0.044);
+            ProgramWindow.Children.Add(trash);
+            trash.MouseEnter += Trash_MouseEnter;
+            trash.MouseLeave += Trash_MouseLeave;
         }
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -185,15 +188,12 @@ namespace CPSC481_Interface {
             ResultStack.Children.Add(item);
         }
 
-      /*  private void Trash_MouseLeave(object sender, MouseEventArgs e)
-        {
+        private void Trash_MouseLeave(object sender, MouseEventArgs e) {
             (sender as Image).Source = t2;
         }
 
-        private void Trash_MouseEnter(object sender, MouseEventArgs e)
-        {
+        private void Trash_MouseEnter(object sender, MouseEventArgs e) {
             (sender as Image).Source = t1;
-        }*/
+        }
     }
-    
 }
