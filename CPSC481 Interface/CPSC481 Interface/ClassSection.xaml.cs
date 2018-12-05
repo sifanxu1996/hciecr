@@ -25,29 +25,72 @@ namespace CPSC481_Interface {
         private Panel originalParent;
         private string name, type;
         public Brush color;
-        private bool placedOnce;
+        public ClassData data;
+        public bool isTutorial;
+        private bool placedOnce, onGrid;
+        private GridSection[][] sections;
+        private double originalHeight;
+        private SearchItem searchParent;
 
-        public ClassSection(MainWindow Window, string Type, Panel OriginalParent, string ClassName, Brush Color) {
+        public ClassSection(MainWindow Window, bool IsTutorial, Panel OriginalParent, ClassData Data, Brush Color, SearchItem SearchParent) {
             InitializeComponent();
 
             offset = new Point();
             window = Window;
-            SectionType.Content = Type;
+            searchParent = SearchParent;
 
             originalParent = OriginalParent;
             originalMargin = Margin;
+            originalHeight = Height;
 
-            name = ClassName;
-            type = Type;
+            data = Data;
+            isTutorial = IsTutorial;
+            name = data.name;
+            type = (IsTutorial) ? "Tutorial" : "Lecture";
+            SectionType.Content = type;
             radius = new Point(BG.RadiusX, BG.RadiusY);
             color = Color;
             BG.Fill = Color;
             placedOnce = false;
+            onGrid = false;
+
+            TimeSlot[] slots = (IsTutorial) ? Data.tutorialSlots : Data.timeSlots;
+
+            sections = new GridSection[slots.Length][];
+            for (int j = 0; j < slots.Length; j++) {
+                TimeSlot t = slots[j];
+                GridSection[] gs = new GridSection[t.days.Length];
+                for (int i = 0; i < t.days.Length; i++) {
+                    GridSection g = new GridSection(this, name, type, color);
+                    Grid.SetRow(g, (int) Math.Floor(t.startTime));
+                    Grid.SetColumn(g, t.days[i]);
+                    Grid.SetRowSpan(g, (int) Math.Ceiling(t.duration));
+                    g.VerticalAlignment = VerticalAlignment.Top;
+                    double defaultHeight = 116.5;
+                    double height = t.duration * defaultHeight;
+                    g.Height = height;
+                    Thickness thickness = new Thickness(0);
+                    thickness.Top = (t.startTime - Math.Floor(t.startTime)) * defaultHeight;
+                    g.Margin = thickness;
+                    gs[i] = g;
+                    window.ScheduleGrid.Children.Add(g);
+                }
+                foreach (GridSection g in gs) {
+                    g.SetConnected(gs);
+                }
+                if (gs.Length > 0) {
+                    gs[0].HideConnected();
+                }
+                sections[j] = gs;
+            }
         }
 
-        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
+        public void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
-                offset = Mouse.GetPosition(this);
+                Grid.SetZIndex(this, 1);
+                window.ExpandSearchItem(searchParent);
+
+                offset = new Point(ActualWidth / 2, ActualHeight / 2);
                 startPosition = this.Margin;
                 this.CaptureMouse();
 
@@ -62,13 +105,41 @@ namespace CPSC481_Interface {
                     BG.RadiusX = radius.X;
                     BG.RadiusY = radius.Y;
                 }
+
+                onGrid = false;
+                foreach (GridSection[] gs in sections) {
+                    if (gs.Length > 0) {
+                        gs[0].ShowConnected();
+                        gs[0].SetStay(false);
+                        gs[0].ShadowConnected();
+                    }
+                }
             }
         }
 
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Released) {
+            if (e.LeftButton == MouseButtonState.Released && e.ChangedButton == MouseButton.Left) {
                 this.ReleaseMouseCapture();
                 window.released = this;
+            }
+        }
+
+        // generates class sections on calendar when mouse hovers over ClassSection
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e) {
+            if (!onGrid) {
+                foreach (GridSection[] gs in sections) {
+                    if (gs.Length > 0) {
+                        gs[0].ShowConnected();
+                    }
+                }
+            }
+        }
+
+        private void UserControl_MouseLeave(object sender, MouseEventArgs e) {
+            foreach (GridSection[] gs in sections) {
+                if (gs.Length > 0) {
+                    gs[0].HideConnected();
+                }
             }
         }
 
@@ -94,18 +165,45 @@ namespace CPSC481_Interface {
                 originalParent.Children.Add(this);
             }
             Margin = originalMargin;
+            Height = originalHeight;
             SectionType.Content = type;
             BG.RadiusX = radius.X;
             BG.RadiusY = radius.Y;
+            onGrid = false;
+
+            for (int i = 0; i < sections.Length; i++) {
+                for (int j = 0; j < sections[i].Length; j++) {
+                    GridSection g = sections[i][j];
+                    g.SetStay(false);
+                    g.ShadowConnected();
+                }
+            }
         }
 
+        // Make rectangle
         public void OnGridPlace() {
-            // Make rectangle
             BG.RadiusX = 0;
             BG.RadiusY = 0;
-            Margin = new Thickness(0);
             SectionType.Content = name + " " + type;
             placedOnce = true;
+            onGrid = true;
+
+            for (int i = 0; i < sections.Length; i++) {
+                for (int j = 0; j < sections[i].Length; j++) {
+                    GridSection g = sections[i][j];
+                    if (Grid.GetRow(g) == Grid.GetRow(this) && Grid.GetColumn(g) == Grid.GetColumn(this)) {
+                        Grid.SetRowSpan(this, Grid.GetRowSpan(g));
+                        g.SetStay(true);
+                        g.HighlightConnected();
+                        g.ShowConnected();
+                        break;
+                    } else {
+                        g.SetStay(false);
+                        g.ShadowConnected();
+                        g.HideConnected();
+                    }
+                }
+            }
         }
     }
 }

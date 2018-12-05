@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CPSC481_Interface"
         mc:Ignorable="d"
-        Title="CourseRegistration" Height="720" Width="1080" MouseUp="Window_MouseUp">
-
+        Title="CourseRegistration" Height="720" Width="1080" MouseUp="Window_MouseUp"
+        WindowState="Maximized" MouseMove="Window_MouseMove">
     <Grid Background="#FFCF06" x:Name="ProgramWindow">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*" />
@@ -16,8 +16,8 @@
 
         <!-- Courses -->
         <Grid Grid.Column="0" Background="#E42526">
-            <TextBlock Text="COURSES" TextAlignment="Center" FontSize="25" FontWeight="Bold" Margin="0,5,0,0" />
-            <Button Content="Confirm Enrollment" Height ="50" VerticalAlignment="Bottom" Margin="10,0,10,10" FontSize="15" />
+            <TextBlock Text="COURSES" TextAlignment="Center" FontSize="25" FontWeight="Bold" Margin="0,5,0,0" x:Name="Debug"/>
+            <Button Content="Confirm Enrollment" Height ="50" VerticalAlignment="Bottom" Margin="10,0,10,10" FontSize="15" Click="Button_Click" />
         </Grid>
 
         <!-- Search -->
@@ -39,13 +39,13 @@
 
             <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Semester" />
-                <RadioButton Content="F2018" Margin="10,0,10,0" IsChecked="True"/>
+                <RadioButton Content="F2018" Margin="10,0,10,0" IsChecked="True" />
                 <RadioButton Content="W2019" Margin="10,0,10,0" />
                 <RadioButton Content="P2019" Margin="10,0,10,0" />
                 <RadioButton Content="S2018" Margin="10,0,10,0" />
             </WrapPanel>
 
-            <Grid Grid.Row="1" Background="White" x:Name="ScheduleGrid" MouseUp="ScheduleGrid_MouseUp">
+            <Grid Grid.Row="1" Background="White" x:Name="ScheduleGrid" x:FieldModifier="public" MouseUp="ScheduleGrid_MouseUp">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.3*" />
                     <RowDefinition Height="*" />
@@ -84,6 +84,21 @@
                 <TextBlock Grid.Column="0" Grid.Row="6" Text="1PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
                 <TextBlock Grid.Column="0" Grid.Row="7" Text="2PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
                 <TextBlock Grid.Column="0" Grid.Row="8" Text="3PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+
+                <Border Grid.Column="0" Grid.Row="1" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="0" Grid.Row="2" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="0" Grid.Row="3" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="0" Grid.Row="4" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="0" Grid.Row="5" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="0" Grid.Row="6" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="0" Grid.Row="7" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="0" Grid.Row="8" BorderThickness="0.25" BorderBrush="Black"/>
+
+                <Border Grid.Column="1" Grid.Row="0" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="2" Grid.Row="0" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="3" Grid.Row="0" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="4" Grid.Row="0" BorderThickness="0.25" BorderBrush="Black"/>
+                <Border Grid.Column="5" Grid.Row="0" BorderThickness="0.25" BorderBrush="Black"/>
 
                 <Border Grid.Column="1" Grid.Row="1" BorderThickness="0.25" BorderBrush="Gray"/>
                 <Border Grid.Column="1" Grid.Row="2" BorderThickness="0.25" BorderBrush="Gray"/>

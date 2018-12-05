@@ -17,18 +17,35 @@ using Image = System.Windows.Controls.Image;
 
 namespace CPSC481_Interface {
 
+    // TimeSlot class
+    public class TimeSlot {
+        public int[] days;
+        public float startTime, duration;
+
+        public TimeSlot(int[] days, float startTime, int duration) {
+            this.days = days;
+            this.startTime = startTime;
+            this.duration = duration / 60f;
+        }
+    }
+
+    // ClassData class
     public class ClassData {
 
         public string name, title, description, professor, times;
+        public TimeSlot[] timeSlots, tutorialSlots;
         public bool hasTutorial;
+        public Brush brush;
 
-        public ClassData(string name, string title, string description, string professor, string times, bool hasTutorial) {
+        public ClassData(string name, string title, string description, string professor, string times, TimeSlot[] timeSlots, bool hasTutorial, TimeSlot[] tutorialSlots) {
             this.name = name;
             this.title = title;
             this.description = description;
             this.professor = professor;
             this.times = times;
+            this.timeSlots = timeSlots;
             this.hasTutorial = hasTutorial;
+            this.tutorialSlots = tutorialSlots;
         }
 
         public static int CompareClassData(ClassData cd1, ClassData cd2) {
@@ -48,6 +65,9 @@ namespace CPSC481_Interface {
         public ClassSection released;
         private Random rand;
         private BitmapImage t1, t2;
+        private Brush[] classColors;
+        private SearchItem[] items;
+        private List<ClassData> classes;
 
         public MainWindow() {
             InitializeComponent();
@@ -66,6 +86,21 @@ namespace CPSC481_Interface {
             ProgramWindow.Children.Add(trash);
             trash.MouseEnter += Trash_MouseEnter;
             trash.MouseLeave += Trash_MouseLeave;
+          
+            classColors = new Brush[6];
+            classColors[0] = CreateBrush(75, 163, 255);  // Blue
+            classColors[1] = CreateBrush(191, 0, 255);   // Yellow
+            classColors[2] = CreateBrush(116, 195, 101); // Green
+            classColors[3] = CreateBrush(253, 255, 0);   // Purple
+            classColors[4] = CreateBrush(255, 36, 0);    // Red
+            classColors[5] = CreateBrush(255, 159, 0);   // Orange
+
+            classes = GetClasses();
+            CreateSearchItems();
+        }
+
+        private Brush CreateBrush(byte r, byte g, byte b) {
+            return new SolidColorBrush(Color.FromRgb(r, g, b));
         }
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -75,23 +110,28 @@ namespace CPSC481_Interface {
             }
         }
 
+        // returns the coordinates
         private bool IsHoveringCell(Border b, Point p) {
             bool inX = b.Margin.Left <= p.X && b.Margin.Left + b.ActualWidth >= p.X;
             bool inY = b.Margin.Top <= p.Y && b.Margin.Top + b.ActualHeight >= p.Y;
             return inX && inY;
         }
 
+        // dropping a course onto the schedule
         private void ScheduleGrid_MouseUp(object sender, MouseButtonEventArgs e) {
             if (released != null) {
                 foreach (UIElement ui in ScheduleGrid.Children) {
-                    Border b = ui as Border;
-                    if (b != null) {
-                        int col = Grid.GetColumn(b);
-                        int row = Grid.GetRow(b);
-                        Point p = Mouse.GetPosition(b);
-                        if (IsHoveringCell(b, p)) {
-                            Grid.SetColumn(released, col);
-                            Grid.SetRow(released, row);
+                    GridSection gs = ui as GridSection;
+                    if (gs != null) {
+                        Point p = Mouse.GetPosition(gs);
+                        if (IsHoveringGridSection(gs, p) && gs.parentClass == released) {
+                            Grid.SetRow(released, Grid.GetRow(gs));
+                            Grid.SetColumn(released, Grid.GetColumn(gs));
+                            Grid.SetRowSpan(released, Grid.GetRowSpan(gs));
+                            Grid.SetZIndex(released, Grid.GetZIndex(gs) - 10);
+                            released.VerticalAlignment = VerticalAlignment.Top;
+                            released.Height = gs.Height;
+                            released.Margin = gs.Margin;
                             released.OnGridPlace();
                             released = null;
                             break;
@@ -113,26 +153,39 @@ namespace CPSC481_Interface {
             }
         }
 
-        private List<ClassData> GetData() {
-            List<ClassData> data = new List<ClassData>();
-            data.Add(new ClassData("CPSC 231", "Introduction to Computer Science for Computer Science Majors I", "Introduction to problem solving, the analysis and design of small-scale computational systems, and implementation using a procedural programming language. For computer science majors.", "Nathaly Verwaal", "10AM-10:50AM MWF, 11:00AM-12:15PM TR", true));
-            data.Add(new ClassData("CPSC 413", "Design and Analysis of Algorithms I", "Techniques for the analysis of algorithms, including counting, summation, recurrences, and asymptotic relations; techniques for the design of efficient algorithms, including greedy methods, divide and conquer, and dynamic programming; examples of their application; an introduction to tractable and intractable problems.", "Peter Hoyer", "9:30AM-10:45AM TR", true));
-            data.Add(new ClassData("CPSC 481", "Human-Computer Interaction I", "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.", "Ehud Sharlin", "10AM-10:50AM MWF", true));
+        // generate list of available courses
+        private List<ClassData> GetClasses() {
+            ClassData cpsc231 = new ClassData("CPSC 231", "Introduction to Computer Science for Computer Science Majors I", "Introduction to problem solving, the analysis and design of small-scale computational systems, and implementation using a procedural programming language. For computer science majors.", "Nathaly Verwaal", "10AM-10:50AM MWF, 11:00AM-12:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 3, 60), new TimeSlot(new int[] { 2, 4 }, 4, 75) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 4, 60), new TimeSlot(new int[] { 5 }, 1, 120) });
+            ClassData cpsc413 = new ClassData("CPSC 413", "Design and Analysis of Algorithms I", "Techniques for the analysis of algorithms, including counting, summation, recurrences, and asymptotic relations; techniques for the design of efficient algorithms, including greedy methods, divide and conquer, and dynamic programming; examples of their application; an introduction to tractable and intractable problems.", "Peter Hoyer", "9:30AM-10:45AM TR", new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 2.5f, 90) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 4, 60), new TimeSlot(new int[] { 1, 3 }, 4, 60) });
+            ClassData cpsc481 = new ClassData("CPSC 481", "Human-Computer Interaction I", "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.", "Ehud Sharlin", "10AM-10:50AM MWF", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 3, 60) }, true, new TimeSlot[] { new TimeSlot(new int[] { 1 }, 5, 120), new TimeSlot(new int[] { 5 }, 5, 120) });
+            ClassData math211 = new ClassData("MATH 211", "Linear Methods I", "Systems of equations and matrices, vectors, matrix representations and determinants. Complex numbers, polar form, eigenvalues, eigenvectors. Applications.", "Thi Dinh", "1PM-1:50PM MWF, 2:00PM-3:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 6, 60), new TimeSlot(new int[] { 2, 4 }, 7, 75) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 1, 60), new TimeSlot(new int[] { 2, 4 }, 2, 60) });
+            ClassData ling201 = new ClassData("LING 201", "Introduction to Linguistics I", "Introduction to the scientific study of language, including the analysis of word, sentence, and sound structure, and the exploration of language as a human, biological, social, and historical phenomenon.", "Stephen Winters", "2:00PM-2:50PM MWF", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 7, 60) }, false, null);
+            ClassData phil314 = new ClassData("PHIL 314", "Information Technology Ethics", "A critical and analytical examination of ethical and legal problems arising in and about information technology. May include hacking, online privacy, intellectual property rights, artificial intelligence, globalization and regulation issues, cheating in online games, and others.", "Reid Buchanan", "2:00PM-3:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 7, 75) }, false, null);
 
-            data.Add(new ClassData("MATH 211", "Linear Methods I", "Systems of equations and matrices, vectors, matrix representations and determinants. Complex numbers, polar form, eigenvalues, eigenvectors. Applications.", "Thi Dinh", "1PM-1:50PM MWF, 3:00PM-4:15PM TR", true));
+            List<ClassData> data = new List<ClassData>(new ClassData[] { cpsc231, cpsc413, cpsc481, math211, ling201, phil314 });
+            data = Shuffle(data);
 
-            data.Add(new ClassData("LING 201", "Introduction to Linguistics I", "Introduction to the scientific study of language, including the analysis of word, sentence, and sound structure, and the exploration of language as a human, biological, social, and historical phenomenon.", "Stephen Winters", "2:00PM-2:50PM MWF", false));
-
-            data.Add(new ClassData("PHIL 314", "Information Technology Ethics", "A critical and analytical examination of ethical and legal problems arising in and about information technology. May include hacking, online privacy, intellectual property rights, artificial intelligence, globalization and regulation issues, cheating in online games, and others.", "Reid Buchanan", "2:00PM-3:15PM TR", false));
-
+            for (int i = 0; i < data.Count; i++) {
+                data[i].brush = classColors[i];
+            }
             data.Sort(ClassData.CompareClassData);
             return data;
         }
 
+        private List<ClassData> Shuffle(List<ClassData> cs) {
+            List<ClassData> copy = new List<ClassData>(cs.Count);
+            for (int i = 0; i < copy.Capacity; i++) {
+                int idx = rand.Next(0, cs.Count);
+                copy.Add(cs.ElementAt(idx));
+                cs.RemoveAt(idx);
+            }
+            return copy;
+        }
+
+        // searchbox entries
         private void SearchBox_KeyUp(object sender, KeyEventArgs e) {
             bool found = false;
             Border border = (ResultStack.Parent as ScrollViewer).Parent as Border;
-            List<ClassData> data = GetData();
 
             string query = SearchBox.Text.ToLower();
 
@@ -147,10 +200,10 @@ namespace CPSC481_Interface {
             ResultStack.Children.Clear();
 
             // Add the result   
-            foreach (ClassData obj in data) {
-                if (obj.name.ToLower().StartsWith(query)) {
+            foreach (SearchItem item in items) {
+                if (item.ClassName.Content.ToString().ToLower().StartsWith(query)) {
                     // The word starts with this... Autocomplete must work   
-                    AddItem(obj);
+                    ResultStack.Children.Add(item);
                     found = true;
                 }
             }
@@ -160,32 +213,72 @@ namespace CPSC481_Interface {
             }
         }
 
-        private Brush GetRandomBrush() {
-            byte r = (byte) rand.Next(0, 256);
-            byte g = (byte) rand.Next(0, 256);
-            byte b = (byte) rand.Next(0, 256);
-            return new SolidColorBrush(Color.FromRgb(r, g, b));
+        private void CreateSearchItems() {
+            items = new SearchItem[classes.Count];
+            for (int i = 0; i < items.Length; i++) {
+                ClassData data = classes[i];
+                SearchItem item = new SearchItem(data.name, data.ToString() + "\n\nDrag and drop the elements below to\nthe calendar on the right");
+                ClassSection lecture = new ClassSection(this, false, item.Sections, data, data.brush, item);
+                item.Sections.Children.Add(lecture);
+                if (data.hasTutorial) {
+                    ClassSection tutorial = new ClassSection(this, true, item.Sections, data, data.brush, item);
+                    item.Sections.Children.Add(tutorial);
+                }
+                item.ClassName.MouseLeftButtonDown += (sender, e) => {
+                    ExpandSearchItem(item);
+                };
+                items[i] = item;
+            }
         }
 
-        private void AddItem(ClassData data) {
-            Brush brush = GetRandomBrush();
-            SearchItem item = new SearchItem(data.name, data.ToString());
-            ClassSection lecture = new ClassSection(this, "Lecture", item.Sections, data.name, brush);
-            item.Sections.Children.Add(lecture);
-            if (data.hasTutorial) {
-                ClassSection tutorial = new ClassSection(this, "Tutorial", item.Sections, data.name, brush);
-                item.Sections.Children.Add(tutorial);
+        public void ExpandSearchItem(SearchItem s) {
+            SearchBox.Text = s.ClassName.Content.ToString().Split(' ')[0];
+            SearchBox_KeyUp(this, null);
+            foreach (UIElement ui in ResultStack.Children) {
+                SearchItem si = ui as SearchItem;
+                if (si != null) {
+                    si.SetExpanded(false);
+                }
             }
-            item.ClassName.MouseLeftButtonDown += (sender, e) => {
-                foreach (UIElement ui in ResultStack.Children) {
-                    SearchItem si = ui as SearchItem;
-                    if (si != null) {
-                        si.SetExpanded(false);
+            s.SetExpanded(true);
+        }
+
+        // confirmation window
+        private void Button_Click(object sender, RoutedEventArgs e) {
+            ConfirmationWin win = new ConfirmationWin(this);
+            win.Owner = this;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            win.top_win.Text = "Confirming Enrollment";
+            win.question.Text = "Are you sure you want to enroll in the following courses:";
+            win.ShowDialog();
+        }
+
+        private bool IsHoveringGridSection(GridSection gs, Point p) {
+            bool inX = gs.Margin.Left <= p.X && gs.Margin.Left + gs.ActualWidth >= p.X;
+            bool a = gs.Margin.Top <= p.Y;
+            bool b = gs.ActualHeight >= p.Y;
+            bool inY = a && b;
+            return inX && inY;
+        }
+
+        private void Window_MouseMove(object sender, MouseEventArgs e) {
+            if (released == null) {
+                foreach (UIElement ui in ScheduleGrid.Children) {
+                    GridSection gs = ui as GridSection;
+                    if (gs != null) {
+                        bool anyHovering = false;
+                        foreach (GridSection g in gs.connected) {
+                            Point p = Mouse.GetPosition(g);
+                            anyHovering = anyHovering || IsHoveringGridSection(g, p);
+                        }
+                        if (anyHovering) {
+                            gs.HighlightConnected();
+                        } else {
+                            gs.ShadowConnected();
+                        }
                     }
                 }
-                item.SetExpanded(true);
-            };
-            ResultStack.Children.Add(item);
+            }
         }
 
         private void Trash_MouseLeave(object sender, MouseEventArgs e) {

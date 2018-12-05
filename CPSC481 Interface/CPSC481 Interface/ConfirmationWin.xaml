@@ -1,0 +1,45 @@
+﻿<Window x:Class="CPSC481_Interface.ConfirmationWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CPSC481_Interface"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="1000"
+        Background="White"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Arial"
+        ResizeMode="NoResize"
+        BorderThickness="1"
+        BorderBrush="Black"
+        WindowStyle="None">
+
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" Background="AliceBlue">
+            <TextBlock  x:Name="top_win" TextAlignment="Left" FontSize="25" Margin="10,15,0,0" />
+        </Grid>
+        
+        
+        <Grid Grid.Row="1">
+            <TextBlock x:Name="question" TextAlignment="Center" FontSize="35" Margin="0,30,0,0"/>  
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Yes" Click="btnYes_Click" Height="100" Width="150" HorizontalAlignment="Right" Margin="0,0,30,0" FontSize="30" Background="LightGreen" ></Button>
+            <Button Grid.Column="1" Content="No" Click="btnNo_Click" Height="100" Width="150" HorizontalAlignment="Left" Margin="30,0,0,0" FontSize="30" Background="Red"></Button>
+        </Grid>
+
+    </Grid>
+</Window>
