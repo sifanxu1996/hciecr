@@ -30,8 +30,8 @@ namespace CPSC481_Interface {
 
             expanded = false;
             transparent = Brushes.Transparent;
-            highlight = new SolidColorBrush(Color.FromRgb(170, 50, 50));
-            selected = new SolidColorBrush(Color.FromRgb(200, 80, 80));
+            highlight = new SolidColorBrush(Color.FromRgb(31, 117, 254));
+            selected = new SolidColorBrush(Color.FromRgb(204, 204, 255));
         }
 
         public void SetExpanded(bool visible) {
