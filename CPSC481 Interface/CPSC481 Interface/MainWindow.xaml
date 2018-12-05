@@ -41,8 +41,8 @@
 
             <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Semester" />
-                <RadioButton Content="F2018" Margin="10,0,10,0" IsChecked="True"/>
-                <RadioButton Content="W2019" Margin="10,0,10,0" />
+                <RadioButton Content="F2018" Margin="10,0,10,0" IsChecked="True" />
+                <RadioButton Content="W2019" Margin="10,0,10,0" Checked="CheckedW2019" />
                 <RadioButton Content="P2019" Margin="10,0,10,0" />
                 <RadioButton Content="S2018" Margin="10,0,10,0" />
             </WrapPanel>

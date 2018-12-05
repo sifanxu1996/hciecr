@@ -154,7 +154,6 @@ namespace CPSC481_Interface {
             for (int i = 0; i < data.Count; i++) {
                 data[i].brush = classColors[i];
             }
-
             data.Sort(ClassData.CompareClassData);
             return data;
         }
@@ -264,6 +263,16 @@ namespace CPSC481_Interface {
                     }
                 }
             }
+        }
+
+        public void Navigate(UserControl nextPage)
+        {
+            this.Content = nextPage;
+        }
+
+        private void CheckedW2019(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(pageW2019);
         }
     }
 }
