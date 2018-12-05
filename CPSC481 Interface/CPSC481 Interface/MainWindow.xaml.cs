@@ -264,15 +264,5 @@ namespace CPSC481_Interface {
                 }
             }
         }
-
-        public void Navigate(UserControl nextPage)
-        {
-            this.Content = nextPage;
-        }
-
-        private void CheckedW2019(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(pageW2019);
-        }
     }
 }
