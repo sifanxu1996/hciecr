@@ -234,6 +234,8 @@ namespace CPSC481_Interface {
             ConfirmationWin win = new ConfirmationWin(this);
             win.Owner = this;
             win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            win.top_win.Text = "Confirming Enrollment";
+            win.question.Text = "Are you sure you want to enroll in the following courses:";
             win.ShowDialog();
         }
 

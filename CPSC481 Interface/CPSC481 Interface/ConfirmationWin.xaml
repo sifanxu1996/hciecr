@@ -5,38 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CPSC481_Interface"
         mc:Ignorable="d"
-        Title="MainWindow" Height="Auto" Width="600"
-        Background="WhiteSmoke"
+        Title="MainWindow" Height="500" Width="1000"
+        Background="White"
         WindowStartupLocation="CenterScreen"
         FontFamily="Arial"
         ResizeMode="NoResize"
         BorderThickness="1"
-        BorderBrush="LightGray"
-        WindowStyle="None"
-        SizeToContent="Height">
+        BorderBrush="Black"
+        WindowStyle="None">
+
+
 
     <Grid>
-        <DockPanel Name="dpTitleBar" VerticalAlignment="Top">
-            <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="DarkSlateBlue" Foreground="WhiteSmoke" FontFamily="Arial" FontWeight="DemiBold" Height="24" Padding="5">Application Message</TextBlock>
-            <StackPanel Name="stkpnlMessageBody" DockPanel.Dock="Bottom" Background="WhiteSmoke" Height="Auto">
-                <Grid Background="WhiteSmoke" Height="Auto">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" Background="AliceBlue">
+            <TextBlock  x:Name="top_win" TextAlignment="Left" FontSize="25" Margin="10,15,0,0" />
+        </Grid>
+        
+        
+        <Grid Grid.Row="1">
+            <TextBlock x:Name="question" TextAlignment="Center" FontSize="35" Margin="0,30,0,0"/>  
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Yes" Click="btnYes_Click" Height="100" Width="150" HorizontalAlignment="Right" Margin="0,0,30,0" FontSize="30" Background="LightGreen" ></Button>
+            <Button Grid.Column="1" Content="No" Click="btnNo_Click" Height="100" Width="150" HorizontalAlignment="Left" Margin="30,0,0,0" FontSize="30" Background="Red"></Button>
+        </Grid>
 
-                    <Image Name="imgMessageImage" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Width="64" Margin="30,30,0,0"/>
-
-                    <TextBlock Name="txtbMessage" Text="" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="WhiteSmoke" Foreground="DarkSlateBlue" FontFamily="Arial" FontWeight="Normal" Height="Auto" Padding="5" Margin="0,30,25,0" TextWrapping="Wrap">
-                    </TextBlock>
-                </Grid>
-                <Grid Background="WhiteSmoke" VerticalAlignment="Bottom" Margin="5,5,5,5" Height="Auto">
-
-                    <Button Name="btnYes" Content="Yes" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="DarkSlateBlue" Foreground="WhiteSmoke" FontFamily="Arial" FontWeight="Normal" Height="24" Width="75" Click="btnYes_Click" />
-
-                    <Button Name="btnNo" Content="No" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="80,0,0,0" Background="DarkSlateBlue" Foreground="WhiteSmoke" FontFamily="Arial" FontWeight="Normal" Height="24" Width="75" Click="btnNo_Click"/>
-                </Grid>
-            </StackPanel>
-        </DockPanel>
     </Grid>
 </Window>
