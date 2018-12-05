@@ -80,13 +80,12 @@ namespace CPSC481_Interface {
 
             Image trash = new Image();
             trash.Source = t2;
-            Grid.SetColumn(trash, 1);
-            trash.Margin = new Thickness(60, 536, 70, 29);
-            trash.RenderTransformOrigin = new Point(0.829, 0.044);
-            ProgramWindow.Children.Add(trash);
+            trash.MaxHeight = Garbage.ActualHeight;
+            trash.MaxWidth = Garbage.ActualWidth;
+            Garbage.Children.Add(trash);
             trash.MouseEnter += Trash_MouseEnter;
             trash.MouseLeave += Trash_MouseLeave;
-          
+
             classColors = new Brush[6];
             classColors[0] = CreateBrush(75, 163, 255);  // Blue
             classColors[1] = CreateBrush(191, 0, 255);   // Yellow

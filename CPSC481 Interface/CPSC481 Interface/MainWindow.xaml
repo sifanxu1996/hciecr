@@ -29,7 +29,9 @@
                 </ScrollViewer>
             </Border>
         </StackPanel>
-        
+
+        <StackPanel Grid.Column="1" x:Name="Garbage" Margin="75,600,75,10"/>
+
         <!-- Calendar -->
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
