@@ -64,7 +64,6 @@ namespace CPSC481_Interface {
 
         public ClassSection released;
         private Random rand;
-        private BitmapImage t1, t2;
         private Brush[] classColors;
         private SearchItem[] items;
         private List<ClassData> classes;
@@ -74,17 +73,6 @@ namespace CPSC481_Interface {
 
             released = null;
             rand = new Random();
-
-            t1 = new BitmapImage(new Uri("pack://application:,,,/Icons/tstuff.png"));
-            t2 = new BitmapImage(new Uri("pack://application:,,,/Icons/trash.png"));
-
-            Image trash = new Image();
-            trash.Source = t2;
-            trash.MaxHeight = Garbage.ActualHeight;
-            trash.MaxWidth = Garbage.ActualWidth;
-            Garbage.Children.Add(trash);
-            trash.MouseEnter += Trash_MouseEnter;
-            trash.MouseLeave += Trash_MouseLeave;
 
             classColors = new Brush[6];
             classColors[0] = CreateBrush(75, 163, 255);  // Blue
@@ -280,12 +268,14 @@ namespace CPSC481_Interface {
             }
         }
 
-        private void Trash_MouseLeave(object sender, MouseEventArgs e) {
-            (sender as Image).Source = t2;
+        private void Garbage_MouseEnter(object sender, MouseEventArgs e) {
+            TrashEmpty.Visibility = Visibility.Collapsed;
+            TrashFull.Visibility = Visibility.Visible;
         }
 
-        private void Trash_MouseEnter(object sender, MouseEventArgs e) {
-            (sender as Image).Source = t1;
+        private void Garbage_MouseLeave(object sender, MouseEventArgs e) {
+            TrashFull.Visibility = Visibility.Collapsed;
+            TrashEmpty.Visibility = Visibility.Visible;
         }
     }
 }

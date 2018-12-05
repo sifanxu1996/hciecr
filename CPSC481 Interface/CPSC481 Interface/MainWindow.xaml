@@ -20,17 +20,35 @@
             <Button Content="Confirm Enrollment" Height ="50" VerticalAlignment="Bottom" Margin="10,0,10,10" FontSize="15" Click="Button_Click" />
         </Grid>
 
-        <!-- Search -->
-        <StackPanel Grid.Column="1" Background="#FFCF06">
-            <TextBox x:Name="SearchBox" Padding="2" Margin="10,10,10,5" Text="Search Course" FontSize="15" Height="30" Foreground="Gray" GotFocus="SearchBox_GotFocus" LostFocus="SearchBox_LostFocus" KeyUp="SearchBox_KeyUp"/>
-            <Border Margin="10,0,10,10" BorderBrush="DarkBlue" BorderThickness="1" Visibility="Collapsed">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Name="ResultStack"></StackPanel>
-                </ScrollViewer>
-            </Border>
-        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="0.25*" />
+            </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="1" x:Name="Garbage" Margin="75,600,75,10"/>
+            <!-- Search -->
+            <StackPanel Grid.Column="1" Background="#FFCF06">
+                <TextBox x:Name="SearchBox" Padding="2" Margin="10,10,10,5" Text="Search Course" FontSize="15" Height="30" Foreground="Gray" GotFocus="SearchBox_GotFocus" LostFocus="SearchBox_LostFocus" KeyUp="SearchBox_KeyUp"/>
+                <Border Margin="10,0,10,10" BorderBrush="DarkBlue" BorderThickness="1" Visibility="Collapsed">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Name="ResultStack"></StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Grid.Row="2" x:Name="Garbage" MouseEnter="Garbage_MouseEnter" MouseLeave="Garbage_MouseLeave" >
+                <Image Height="200" x:Name="TrashEmpty" Visibility="Visible">
+                    <Image.Source>
+                        <BitmapImage UriSource="/icons/trash.png" />
+                    </Image.Source>
+                </Image>
+                <Image Height="200" x:Name="TrashFull" Visibility="Collapsed">
+                    <Image.Source>
+                        <BitmapImage UriSource="/icons/tstuff.png" />
+                    </Image.Source>
+                </Image>
+            </StackPanel>
+        </Grid>
 
         <!-- Calendar -->
         <Grid Grid.Column="2">
