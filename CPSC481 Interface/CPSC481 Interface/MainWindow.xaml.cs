@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Image = System.Windows.Controls.Image;
 
 namespace CPSC481_Interface {
 
@@ -63,6 +64,7 @@ namespace CPSC481_Interface {
 
         public ClassSection released;
         private Random rand;
+        private BitmapImage t1, t2;
         private Brush[] classColors;
         private SearchItem[] items;
         private List<ClassData> classes;
@@ -73,6 +75,18 @@ namespace CPSC481_Interface {
             released = null;
             rand = new Random();
 
+            t1 = new BitmapImage(new Uri("pack://application:,,,/Icons/tstuff.png"));
+            t2 = new BitmapImage(new Uri("pack://application:,,,/Icons/trash.png"));
+
+            Image trash = new Image();
+            trash.Source = t2;
+            Grid.SetColumn(trash, 1);
+            trash.Margin = new Thickness(60, 536, 70, 29);
+            trash.RenderTransformOrigin = new Point(0.829, 0.044);
+            ProgramWindow.Children.Add(trash);
+            trash.MouseEnter += Trash_MouseEnter;
+            trash.MouseLeave += Trash_MouseLeave;
+          
             classColors = new Brush[6];
             classColors[0] = CreateBrush(75, 163, 255);  // Blue
             classColors[1] = CreateBrush(191, 0, 255);   // Yellow
@@ -265,6 +279,14 @@ namespace CPSC481_Interface {
                     }
                 }
             }
+        }
+
+        private void Trash_MouseLeave(object sender, MouseEventArgs e) {
+            (sender as Image).Source = t2;
+        }
+
+        private void Trash_MouseEnter(object sender, MouseEventArgs e) {
+            (sender as Image).Source = t1;
         }
     }
 }

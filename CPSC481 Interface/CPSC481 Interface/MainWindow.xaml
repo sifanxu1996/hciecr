@@ -7,9 +7,7 @@
         mc:Ignorable="d"
         Title="CourseRegistration" Height="720" Width="1080" MouseUp="Window_MouseUp"
         WindowState="Maximized" MouseMove="Window_MouseMove">
-
     <Grid Background="#FFCF06" x:Name="ProgramWindow">
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*" />
             <ColumnDefinition Width="0.75*" />
@@ -31,7 +29,7 @@
                 </ScrollViewer>
             </Border>
         </StackPanel>
-
+        
         <!-- Calendar -->
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
@@ -46,7 +44,6 @@
                 <RadioButton Content="P2019" Margin="10,0,10,0" />
                 <RadioButton Content="S2018" Margin="10,0,10,0" />
             </WrapPanel>
-
 
             <Grid Grid.Row="1" Background="White" x:Name="ScheduleGrid" x:FieldModifier="public" MouseUp="ScheduleGrid_MouseUp">
                 <Grid.RowDefinitions>
