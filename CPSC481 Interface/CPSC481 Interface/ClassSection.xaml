@@ -9,7 +9,5 @@
     <Grid>
         <Rectangle x:Name="BG" Fill="#FFCF06" Stroke="Black" StrokeThickness="0.5" RadiusX="5" RadiusY="5"/>
         <Label x:Name="SectionType" Content="Section" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-        <Label x:Name="EnrolStatus" Content="E" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,0,0" FontWeight="ExtraBold" FontSize="14" Foreground="DarkGreen" Visibility="Hidden"/>
-        <Border x:Name="EnrolBorder" BorderThickness="3" BorderBrush="Black" Visibility="Hidden"/>
     </Grid>
 </UserControl>
