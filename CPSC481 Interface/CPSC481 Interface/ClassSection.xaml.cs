@@ -20,14 +20,13 @@ namespace CPSC481_Interface {
     public partial class ClassSection : UserControl {
 
         private Point radius;
-        private Thickness startPosition, originalMargin;
+        public Thickness startPosition, originalMargin;
         private MainWindow window;
         private Panel originalParent;
         private string name, type;
         public Brush color;
         public ClassData data;
-        public bool isTutorial, onGrid;
-        private bool placedOnce;
+        public bool isTutorial, onGrid, placedOnce;
         private GridSection[][] sections;
         private double originalHeight;
         private SearchItem searchParent;
@@ -87,10 +86,10 @@ namespace CPSC481_Interface {
         public void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 if (placedOnce) {
-                    window.Garbage.Visibility = Visibility.Visible;
                     Height = 75;
                 }
 
+                window.Garbage.Visibility = Visibility.Visible;
                 Grid.SetZIndex(this, 1);
                 window.ExpandSearchItem(searchParent);
 
@@ -109,7 +108,6 @@ namespace CPSC481_Interface {
                     BG.RadiusY = radius.Y;
                 }
 
-                onGrid = false;
                 foreach (GridSection[] gs in sections) {
                     if (gs.Length > 0) {
                         gs[0].ShowConnected();
@@ -187,7 +185,7 @@ namespace CPSC481_Interface {
         }
 
         // Make rectangle
-        public void OnGridPlace() {
+        public void OnGridPlace(bool SetHeight = false) {
             BG.RadiusX = 0;
             BG.RadiusY = 0;
             SectionType.Content = name + " " + type;
@@ -202,6 +200,9 @@ namespace CPSC481_Interface {
                         g.SetStay(true);
                         g.HighlightConnected();
                         g.ShowConnected();
+                        if (SetHeight) {
+                            Height = g.Height;
+                        }
                         break;
                     } else {
                         g.SetStay(false);

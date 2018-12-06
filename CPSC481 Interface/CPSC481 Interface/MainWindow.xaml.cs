@@ -94,7 +94,16 @@ namespace CPSC481_Interface {
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
             if (released != null) {
-                released.ResetPosition();
+                if (IsHoveringGarbage(TrashEmpty) || IsHoveringGarbage(TrashFull)) {
+                    released.ResetPosition();
+                } else {
+                    if (released.onGrid) {
+                        released.Margin = released.originalMargin;
+                        released.OnGridPlace(true);
+                    } else {
+                        released.ResetPosition();
+                    }
+                }
                 released = null;
             }
         }
