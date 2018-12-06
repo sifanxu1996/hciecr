@@ -25,10 +25,27 @@ namespace CPSC481_Interface {
         }
 
         private void btnYes_Click(object sender, RoutedEventArgs e) {
+            // enable EnrolStatus on all ClassSection, GridSection elements on Grid
+            foreach (UIElement ui in window.ScheduleGrid.Children)
+            {
+                ClassSection cs = ui as ClassSection;
+                GridSection gs = ui as GridSection;
+                if (gs != null)
+                {
+                    gs.EnrolBorder.Visibility = System.Windows.Visibility.Visible;
+                    gs.EnrolStatus.Visibility = System.Windows.Visibility.Visible;
+                }
+                else if (cs != null)
+                {
+                    cs.EnrolBorder.Visibility = System.Windows.Visibility.Visible;
+                    cs.EnrolStatus.Visibility = System.Windows.Visibility.Visible;
+                }
+            }
             Close();
         }
 
         private void btnNo_Click(object sender, RoutedEventArgs e) {
+            //
             Close();
         }
     }
