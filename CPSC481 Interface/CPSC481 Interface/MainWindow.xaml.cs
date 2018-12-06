@@ -84,6 +84,8 @@ namespace CPSC481_Interface {
 
             classes = GetClasses();
             CreateSearchItems();
+
+            Garbage.Visibility = Visibility.Hidden;
         }
 
         private Brush CreateBrush(byte r, byte g, byte b) {
@@ -248,6 +250,13 @@ namespace CPSC481_Interface {
             return inX && inY;
         }
 
+        private bool IsHoveringGarbage(Image i) {
+            Point p = Mouse.GetPosition(i);
+            bool inX = i.Margin.Left <= p.X && i.Margin.Left + i.ActualWidth >= p.X;
+            bool inY = i.Margin.Top <= p.Y && i.Margin.Top + i.ActualHeight >= p.Y;
+            return inX && inY;
+        }
+
         private void Window_MouseMove(object sender, MouseEventArgs e) {
             if (released == null) {
                 foreach (UIElement ui in ScheduleGrid.Children) {
@@ -265,15 +274,20 @@ namespace CPSC481_Interface {
                         }
                     }
                 }
+                if (IsHoveringGarbage(TrashEmpty) || IsHoveringGarbage(TrashFull)) {
+                    Garbage_MouseEnter();
+                } else {
+                    Garbage_MouseLeave();
+                }
             }
         }
 
-        private void Garbage_MouseEnter(object sender, MouseEventArgs e) {
+        private void Garbage_MouseEnter() {
             TrashEmpty.Visibility = Visibility.Collapsed;
             TrashFull.Visibility = Visibility.Visible;
         }
 
-        private void Garbage_MouseLeave(object sender, MouseEventArgs e) {
+        private void Garbage_MouseLeave() {
             TrashFull.Visibility = Visibility.Collapsed;
             TrashEmpty.Visibility = Visibility.Visible;
         }

@@ -19,15 +19,15 @@ namespace CPSC481_Interface {
     /// </summary>
     public partial class ClassSection : UserControl {
 
-        private Point offset, radius;
+        private Point radius;
         private Thickness startPosition, originalMargin;
         private MainWindow window;
         private Panel originalParent;
         private string name, type;
         public Brush color;
         public ClassData data;
-        public bool isTutorial;
-        private bool placedOnce, onGrid;
+        public bool isTutorial, onGrid;
+        private bool placedOnce;
         private GridSection[][] sections;
         private double originalHeight;
         private SearchItem searchParent;
@@ -35,7 +35,6 @@ namespace CPSC481_Interface {
         public ClassSection(MainWindow Window, bool IsTutorial, Panel OriginalParent, ClassData Data, Brush Color, SearchItem SearchParent) {
             InitializeComponent();
 
-            offset = new Point();
             window = Window;
             searchParent = SearchParent;
 
@@ -87,10 +86,14 @@ namespace CPSC481_Interface {
 
         public void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
+                if (placedOnce) {
+                    window.Garbage.Visibility = Visibility.Visible;
+                    Height = 75;
+                }
+
                 Grid.SetZIndex(this, 1);
                 window.ExpandSearchItem(searchParent);
 
-                offset = new Point(ActualWidth / 2, ActualHeight / 2);
                 startPosition = this.Margin;
                 this.CaptureMouse();
 
@@ -119,6 +122,7 @@ namespace CPSC481_Interface {
 
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Released && e.ChangedButton == MouseButton.Left) {
+                window.Garbage.Visibility = Visibility.Hidden;
                 this.ReleaseMouseCapture();
                 window.released = this;
             }
@@ -145,6 +149,8 @@ namespace CPSC481_Interface {
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed && this.IsMouseCaptured) {
+                Point offset = new Point(ActualWidth / 2, ActualHeight / 2);
+
                 Point delta = Mouse.GetPosition(this);
                 delta.Offset(-offset.X, -offset.Y);
 

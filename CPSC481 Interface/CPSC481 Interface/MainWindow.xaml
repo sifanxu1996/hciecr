@@ -36,7 +36,7 @@
                 </Border>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Grid.Row="2" x:Name="Garbage" MouseEnter="Garbage_MouseEnter" MouseLeave="Garbage_MouseLeave" >
+            <StackPanel Grid.Column="1" Grid.Row="2" x:Name="Garbage">
                 <Image Height="200" x:Name="TrashEmpty" Visibility="Visible">
                     <Image.Source>
                         <BitmapImage UriSource="/icons/trash.png" />
