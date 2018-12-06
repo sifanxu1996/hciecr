@@ -30,6 +30,7 @@ namespace CPSC481_Interface {
         private GridSection[][] sections;
         private double originalHeight;
         private SearchItem searchParent;
+        public ClassSection other;
 
         public ClassSection(MainWindow Window, bool IsTutorial, Panel OriginalParent, ClassData Data, Brush Color, SearchItem SearchParent) {
             InitializeComponent();
@@ -51,6 +52,7 @@ namespace CPSC481_Interface {
             BG.Fill = Color;
             placedOnce = false;
             onGrid = false;
+            other = null;
 
             TimeSlot[] slots = (IsTutorial) ? Data.tutorialSlots : Data.timeSlots;
 

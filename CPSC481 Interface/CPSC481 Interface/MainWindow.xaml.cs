@@ -67,6 +67,7 @@ namespace CPSC481_Interface {
         private Brush[] classColors;
         private SearchItem[] items;
         private List<ClassData> classes;
+        public bool ConfirmResult;
 
         public MainWindow() {
             InitializeComponent();
@@ -95,7 +96,23 @@ namespace CPSC481_Interface {
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
             if (released != null) {
                 if (IsHoveringGarbage(TrashEmpty) || IsHoveringGarbage(TrashFull)) {
-                    released.ResetPosition();
+                    if (released.onGrid) {
+                        ConfirmationWin win = CreateWindow("Dropping", "Are you sure you wish to drop: " + released.data.name);
+                        win.ShowDialog();
+
+                        if (ConfirmResult) {
+                            released.ResetPosition();
+                            ClassSection other = released.other;
+                            if (other != null) {
+                                if (other.onGrid) {
+                                    other.ResetPosition();
+                                }
+                            }
+                        } else {
+                            released.Margin = released.originalMargin;
+                            released.OnGridPlace(true);
+                        }
+                    }
                 } else {
                     if (released.onGrid) {
                         released.Margin = released.originalMargin;
@@ -221,6 +238,8 @@ namespace CPSC481_Interface {
                 if (data.hasTutorial) {
                     ClassSection tutorial = new ClassSection(this, true, item.Sections, data, data.brush, item);
                     item.Sections.Children.Add(tutorial);
+                    tutorial.other = lecture;
+                    lecture.other = tutorial;
                 }
                 item.ClassName.MouseLeftButtonDown += (sender, e) => {
                     ExpandSearchItem(item);
@@ -241,13 +260,18 @@ namespace CPSC481_Interface {
             s.SetExpanded(true);
         }
 
-        // confirmation window
-        private void Button_Click(object sender, RoutedEventArgs e) {
+        private ConfirmationWin CreateWindow(string title, string text) {
             ConfirmationWin win = new ConfirmationWin(this);
             win.Owner = this;
             win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            win.top_win.Text = "Confirming Enrollment";
-            win.question.Text = "Are you sure you want to enroll in the following courses:";
+            win.top_win.Text = title;
+            win.question.Text = text;
+            return win;
+        }
+
+        // confirmation window
+        private void Button_Click(object sender, RoutedEventArgs e) {
+            ConfirmationWin win = CreateWindow("Confirming Enrollment", "Are you sure you want to enroll in the following courses:");
             win.ShowDialog();
         }
 
