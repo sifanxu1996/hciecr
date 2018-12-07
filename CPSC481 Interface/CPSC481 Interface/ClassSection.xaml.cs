@@ -23,7 +23,7 @@ namespace CPSC481_Interface {
         public Thickness startPosition, originalMargin;
         private MainWindow window;
         private Panel originalParent;
-        private string name, type;
+        public string name, type;
         public Brush color;
         public ClassData data;
         public bool isTutorial, onGrid, placedOnce;
@@ -31,6 +31,7 @@ namespace CPSC481_Interface {
         private double originalHeight;
         private SearchItem searchParent;
         public ClassSection other;
+        public GridSection linked;
 
         public ClassSection(MainWindow Window, bool IsTutorial, Panel OriginalParent, ClassData Data, Brush Color, SearchItem SearchParent) {
             InitializeComponent();
@@ -224,7 +225,19 @@ namespace CPSC481_Interface {
             }
 
             if (originalParent.Children.Count == 0) {
-                window.ListOfCourses.Children.Add(new TextBlock() { Text = name });
+                bool alreadyPlaced = false;
+                foreach (UIElement ui in window.ListOfCourses.Children)
+                {
+                    CourseListItem cli = ui as CourseListItem;
+                    if (cli != null && cli.name == this.name) {
+                        alreadyPlaced = true;
+                        break;
+                    }
+                }
+
+                if (alreadyPlaced == false) {
+                    window.ListOfCourses.Children.Add(new CourseListItem(this, this.other, this.window));
+                }
             }
         }
     }
