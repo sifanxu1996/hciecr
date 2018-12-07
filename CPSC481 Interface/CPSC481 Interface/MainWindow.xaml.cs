@@ -64,10 +64,10 @@ namespace CPSC481_Interface {
 
         public ClassSection released;
         private Random rand;
-        private BitmapImage t1, t2;
         private Brush[] classColors;
         private SearchItem[] items;
         private List<ClassData> classes;
+        public bool ConfirmResult;
 
         public MainWindow() {
             InitializeComponent();
@@ -75,18 +75,6 @@ namespace CPSC481_Interface {
             released = null;
             rand = new Random();
 
-            t1 = new BitmapImage(new Uri("pack://application:,,,/Icons/tstuff.png"));
-            t2 = new BitmapImage(new Uri("pack://application:,,,/Icons/trash.png"));
-
-            Image trash = new Image();
-            trash.Source = t2;
-            Grid.SetColumn(trash, 1);
-            trash.Margin = new Thickness(60, 536, 70, 29);
-            trash.RenderTransformOrigin = new Point(0.829, 0.044);
-            ProgramWindow.Children.Add(trash);
-            trash.MouseEnter += Trash_MouseEnter;
-            trash.MouseLeave += Trash_MouseLeave;
-          
             classColors = new Brush[6];
             classColors[0] = CreateBrush(75, 163, 255);  // Blue
             classColors[1] = CreateBrush(191, 0, 255);   // Yellow
@@ -97,6 +85,8 @@ namespace CPSC481_Interface {
 
             classes = GetClasses();
             CreateSearchItems();
+
+            Garbage.Visibility = Visibility.Hidden;
         }
 
         private Brush CreateBrush(byte r, byte g, byte b) {
@@ -105,7 +95,35 @@ namespace CPSC481_Interface {
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
             if (released != null) {
-                released.ResetPosition();
+                if (IsHoveringGarbage(TrashEmpty) || IsHoveringGarbage(TrashFull)) {
+                    if (released.onGrid) {
+                        ConfirmationWin win = CreateWindow("Dropping", "Are you sure you wish to drop: " + released.data.name);
+                        win.ShowDialog();
+
+                        if (ConfirmResult) {
+                            released.ResetPosition();
+                            ClassSection other = released.other;
+                            if (other != null) {
+                                if (other.onGrid) {
+                                    other.ResetPosition();
+                                    other.HideConnected();
+                                }
+                            }
+                        } else {
+                            released.Margin = released.originalMargin;
+                            released.OnGridPlace(true);
+                        }
+                    } else {
+                        released.ResetPosition();
+                    }
+                } else {
+                    if (released.onGrid) {
+                        released.Margin = released.originalMargin;
+                        released.OnGridPlace(true);
+                    } else {
+                        released.ResetPosition();
+                    }
+                }
                 released = null;
             }
         }
@@ -223,6 +241,8 @@ namespace CPSC481_Interface {
                 if (data.hasTutorial) {
                     ClassSection tutorial = new ClassSection(this, true, item.Sections, data, data.brush, item);
                     item.Sections.Children.Add(tutorial);
+                    tutorial.other = lecture;
+                    lecture.other = tutorial;
                 }
                 item.ClassName.MouseLeftButtonDown += (sender, e) => {
                     ExpandSearchItem(item);
@@ -243,13 +263,18 @@ namespace CPSC481_Interface {
             s.SetExpanded(true);
         }
 
-        // confirmation window
-        private void Button_Click(object sender, RoutedEventArgs e) {
+        private ConfirmationWin CreateWindow(string title, string text) {
             ConfirmationWin win = new ConfirmationWin(this);
             win.Owner = this;
             win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            win.top_win.Text = "Confirming Enrollment";
-            win.question.Text = "Are you sure you want to enroll in the following courses:";
+            win.top_win.Text = title;
+            win.question.Text = text;
+            return win;
+        }
+
+        // confirmation window
+        private void Button_Click(object sender, RoutedEventArgs e) {
+            ConfirmationWin win = CreateWindow("Confirming Enrollment", "Are you sure you want to enroll in the following courses:");
             win.ShowDialog();
         }
 
@@ -258,6 +283,13 @@ namespace CPSC481_Interface {
             bool a = gs.Margin.Top <= p.Y;
             bool b = gs.ActualHeight >= p.Y;
             bool inY = a && b;
+            return inX && inY;
+        }
+
+        private bool IsHoveringGarbage(Image i) {
+            Point p = Mouse.GetPosition(i);
+            bool inX = i.Margin.Left <= p.X && i.Margin.Left + i.ActualWidth >= p.X;
+            bool inY = i.Margin.Top <= p.Y && i.Margin.Top + i.ActualHeight >= p.Y;
             return inX && inY;
         }
 
@@ -278,15 +310,22 @@ namespace CPSC481_Interface {
                         }
                     }
                 }
+                if (IsHoveringGarbage(TrashEmpty) || IsHoveringGarbage(TrashFull)) {
+                    Garbage_MouseEnter();
+                } else {
+                    Garbage_MouseLeave();
+                }
             }
         }
 
-        private void Trash_MouseLeave(object sender, MouseEventArgs e) {
-            (sender as Image).Source = t2;
+        private void Garbage_MouseEnter() {
+            TrashEmpty.Visibility = Visibility.Collapsed;
+            TrashFull.Visibility = Visibility.Visible;
         }
 
-        private void Trash_MouseEnter(object sender, MouseEventArgs e) {
-            (sender as Image).Source = t1;
+        private void Garbage_MouseLeave() {
+            TrashFull.Visibility = Visibility.Collapsed;
+            TrashEmpty.Visibility = Visibility.Visible;
         }
     }
 }

@@ -19,23 +19,22 @@ namespace CPSC481_Interface {
     /// </summary>
     public partial class ClassSection : UserControl {
 
-        private Point offset, radius;
-        private Thickness startPosition, originalMargin;
+        private Point radius;
+        public Thickness startPosition, originalMargin;
         private MainWindow window;
         private Panel originalParent;
         private string name, type;
         public Brush color;
         public ClassData data;
-        public bool isTutorial;
-        private bool placedOnce, onGrid;
+        public bool isTutorial, onGrid, placedOnce;
         private GridSection[][] sections;
         private double originalHeight;
         private SearchItem searchParent;
+        public ClassSection other;
 
         public ClassSection(MainWindow Window, bool IsTutorial, Panel OriginalParent, ClassData Data, Brush Color, SearchItem SearchParent) {
             InitializeComponent();
 
-            offset = new Point();
             window = Window;
             searchParent = SearchParent;
 
@@ -53,6 +52,7 @@ namespace CPSC481_Interface {
             BG.Fill = Color;
             placedOnce = false;
             onGrid = false;
+            other = null;
 
             TimeSlot[] slots = (IsTutorial) ? Data.tutorialSlots : Data.timeSlots;
 
@@ -87,10 +87,14 @@ namespace CPSC481_Interface {
 
         public void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
+                if (placedOnce) {
+                    Height = 75;
+                }
+
+                window.Garbage.Visibility = Visibility.Visible;
                 Grid.SetZIndex(this, 1);
                 window.ExpandSearchItem(searchParent);
 
-                offset = new Point(ActualWidth / 2, ActualHeight / 2);
                 startPosition = this.Margin;
                 this.CaptureMouse();
 
@@ -106,7 +110,6 @@ namespace CPSC481_Interface {
                     BG.RadiusY = radius.Y;
                 }
 
-                onGrid = false;
                 foreach (GridSection[] gs in sections) {
                     if (gs.Length > 0) {
                         gs[0].ShowConnected();
@@ -117,8 +120,18 @@ namespace CPSC481_Interface {
             }
         }
 
+        public void HideConnected() {
+            foreach (GridSection[] gs in sections) {
+                if (gs.Length > 0) {
+                    gs[0].SetStay(false);
+                    gs[0].HideConnected();
+                }
+            }
+        }
+
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Released && e.ChangedButton == MouseButton.Left) {
+                window.Garbage.Visibility = Visibility.Hidden;
                 this.ReleaseMouseCapture();
                 window.released = this;
             }
@@ -145,6 +158,8 @@ namespace CPSC481_Interface {
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed && this.IsMouseCaptured) {
+                Point offset = new Point(ActualWidth / 2, ActualHeight / 2);
+
                 Point delta = Mouse.GetPosition(this);
                 delta.Offset(-offset.X, -offset.Y);
 
@@ -181,7 +196,7 @@ namespace CPSC481_Interface {
         }
 
         // Make rectangle
-        public void OnGridPlace() {
+        public void OnGridPlace(bool SetHeight = false) {
             BG.RadiusX = 0;
             BG.RadiusY = 0;
             SectionType.Content = name + " " + type;
@@ -196,6 +211,9 @@ namespace CPSC481_Interface {
                         g.SetStay(true);
                         g.HighlightConnected();
                         g.ShowConnected();
+                        if (SetHeight) {
+                            Height = g.Height;
+                        }
                         break;
                     } else {
                         g.SetStay(false);

@@ -25,10 +25,12 @@ namespace CPSC481_Interface {
         }
 
         private void btnYes_Click(object sender, RoutedEventArgs e) {
+            window.ConfirmResult = true;
             Close();
         }
 
         private void btnNo_Click(object sender, RoutedEventArgs e) {
+            window.ConfirmResult = false;
             Close();
         }
     }
