@@ -120,6 +120,15 @@ namespace CPSC481_Interface {
             }
         }
 
+        public void HideConnected() {
+            foreach (GridSection[] gs in sections) {
+                if (gs.Length > 0) {
+                    gs[0].SetStay(false);
+                    gs[0].HideConnected();
+                }
+            }
+        }
+
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Released && e.ChangedButton == MouseButton.Left) {
                 window.Garbage.Visibility = Visibility.Hidden;

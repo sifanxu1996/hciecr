@@ -106,6 +106,7 @@ namespace CPSC481_Interface {
                             if (other != null) {
                                 if (other.onGrid) {
                                     other.ResetPosition();
+                                    other.HideConnected();
                                 }
                             }
                         } else {
