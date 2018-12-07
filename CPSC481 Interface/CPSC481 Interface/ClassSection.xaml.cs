@@ -222,6 +222,10 @@ namespace CPSC481_Interface {
                     }
                 }
             }
+
+            if (originalParent.Children.Count == 0) {
+                window.ListOfCourses.Children.Add(new TextBlock() { Text = name });
+            }
         }
     }
 }
