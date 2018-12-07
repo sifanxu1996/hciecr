@@ -113,6 +113,8 @@ namespace CPSC481_Interface {
                             released.Margin = released.originalMargin;
                             released.OnGridPlace(true);
                         }
+                    } else {
+                        released.ResetPosition();
                     }
                 } else {
                     if (released.onGrid) {
