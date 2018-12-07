@@ -33,7 +33,7 @@ namespace CPSC481_Interface
             this.section = section;
             this.sectionOther = other;
             this.window = window;
-            this.section.name = name;
+            this.name = section.name;
             this.color = section.color;
             this.linked = section.linked;
 
