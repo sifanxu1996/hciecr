@@ -43,14 +43,19 @@ namespace CPSC481_Interface
 
         private void CourseListItem_Checked(object sender, RoutedEventArgs e)
         {
-            linked.ShowConnected();
-            sectionOther.linked.ShowConnected();
+            if (linked != null)
+            {
+                linked.ShowConnected();
+                sectionOther.linked.ShowConnected();
+            }
         }
 
         private void CourseListitem_Unchecked(object sender, RoutedEventArgs e)
         {
-            linked.HideConnected();
-            sectionOther.linked.HideConnected();
+            if (linked != null) {
+                linked.HideConnected();
+                sectionOther.linked.HideConnected();
+            }
         }
 
     }

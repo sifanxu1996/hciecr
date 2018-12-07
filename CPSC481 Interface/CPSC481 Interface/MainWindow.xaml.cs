@@ -152,7 +152,6 @@ namespace CPSC481_Interface {
                             released.Height = gs.Height;
                             released.Margin = gs.Margin;
                             released.OnGridPlace();
-                            // problem; release set to null then deleted; should be addressed. oof.
                             released.linked = gs;
                             released = null;
                             break;
