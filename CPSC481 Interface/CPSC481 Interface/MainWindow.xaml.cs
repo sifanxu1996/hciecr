@@ -102,6 +102,7 @@ namespace CPSC481_Interface {
                         win.ShowDialog();
 
                         if (ConfirmResult) {
+                            CourseList_Clear(released.name);
                             released.ResetPosition();
                             ClassSection other = released.other;
                             if (other != null) {
@@ -161,6 +162,7 @@ namespace CPSC481_Interface {
             released.Height = gs.Height;
             released.Margin = gs.Margin;
             released.OnGridPlace();
+            released.linked = gs;
             released = null;
         }
 
@@ -371,6 +373,16 @@ namespace CPSC481_Interface {
         private void Garbage_MouseLeave() {
             TrashFull.Visibility = Visibility.Collapsed;
             TrashEmpty.Visibility = Visibility.Visible;
+        }
+
+        private void CourseList_Clear(string name) {
+            foreach (UIElement ui in ListOfCourses.Children) {
+                CourseListItem cli = ui as CourseListItem;
+                if (cli != null && cli.name == name) {
+                    ListOfCourses.Children.Remove(cli);
+                    break;
+                }
+            }
         }
     }
 }
