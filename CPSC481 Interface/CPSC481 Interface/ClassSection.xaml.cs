@@ -23,8 +23,8 @@ namespace CPSC481_Interface {
         public Thickness startPosition, originalMargin;
         private MainWindow window;
         private Panel originalParent;
-        private string name, type, time;
-
+        private string type, time;
+        public string name;
         public Brush color;
         public ClassData data;
         public bool isTutorial, onGrid, placedOnce;
@@ -88,61 +88,46 @@ namespace CPSC481_Interface {
             }
         }
 
-        private string getTime(float startTime, float duration)
-        {
+        private string getTime(float startTime, float duration) {
             string period, sTime, eTime, e2Time;
-
             float realStartTime = startTime + 7;
-
             float realEndTime;
 
-            if(duration == 1 || duration == 2)
-            {
+            if (duration == 1 || duration == 2) {
                 e2Time = ":50";
                 realEndTime = realStartTime + duration - 1;
-           
-            } else if (duration == 1.25)
-            {
+
+            } else if (duration == 1.25) {
                 e2Time = ":15";
                 realEndTime = realStartTime + duration;
-            } else
-            {
+            } else {
                 e2Time = ":45";
                 realEndTime = realStartTime + duration - 1;
             }
 
-            
-            if(startTime <= 4)
-            {
+            if (startTime <= 4) {
                 period = "AM";
-            } else
-            {
+            } else {
                 period = "PM";
             }
 
-            if(Math.Floor(realStartTime) == 12)
-            {
+            if (Math.Floor(realStartTime) == 12) {
                 sTime = "12";
-            } else
-            {
+            } else {
                 sTime = "" + (Math.Floor(realStartTime) % 12);
             }
 
-            if(Math.Floor(realEndTime) == 12)
-            {
+            if (Math.Floor(realEndTime) == 12) {
                 eTime = "12" + e2Time;
-            } else
-            {
+            } else {
                 eTime = "" + (Math.Floor(realEndTime) % 12) + e2Time;
             }
 
-            if (Math.Floor(realStartTime) != realStartTime)
-            {
+            if (Math.Floor(realStartTime) != realStartTime) {
                 return sTime + ":30" + period + "-" + eTime + period;
             } else {
                 return sTime + ":00" + period + "-" + eTime + period;
             }
-            
         }
 
         public void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
