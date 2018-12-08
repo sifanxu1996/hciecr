@@ -91,18 +91,22 @@ namespace CPSC481_Interface {
             string period, sTime, eTime, e2Time;
 
             float realStartTime = startTime + 7;
-           
-            float realEndTime = realStartTime + duration-1;
+
+            float realEndTime;
 
             if(duration == 1 || duration == 2)
             {
                 e2Time = ":50";
+                realEndTime = realStartTime + duration - 1;
+           
             } else if (duration == 1.25)
             {
                 e2Time = ":15";
+                realEndTime = realStartTime + duration;
             } else
             {
                 e2Time = ":45";
+                realEndTime = realStartTime + duration - 1;
             }
 
             
