@@ -17,7 +17,7 @@
         <!-- Courses -->
         <Grid Grid.Column="0" Background="#E42526">
             <TextBlock Text="COURSES" TextAlignment="Center" FontSize="25" FontWeight="Bold" Margin="0,5,0,0" x:Name="Debug"/>
-            <StackPanel x:Name="ListOfCourses" Margin="0,40,0,0"/>
+            <StackPanel x:Name="ListOfCourses" Margin="10,40,10,0"/>
             <Button Content="Confirm Enrollment" Height ="50" VerticalAlignment="Bottom" Margin="10,0,10,10" FontSize="15" Click="Button_Click" />
         </Grid>
 

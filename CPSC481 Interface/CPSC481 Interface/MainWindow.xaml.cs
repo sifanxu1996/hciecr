@@ -330,13 +330,10 @@ namespace CPSC481_Interface {
             TrashEmpty.Visibility = Visibility.Visible;
         }
 
-        private void CourseList_Clear(string name)
-        {
-            foreach (UIElement ui in ListOfCourses.Children)
-            {
+        private void CourseList_Clear(string name) {
+            foreach (UIElement ui in ListOfCourses.Children) {
                 CourseListItem cli = ui as CourseListItem;
-                if (cli != null && cli.name == name)
-                {
+                if (cli != null && cli.name == name) {
                     ListOfCourses.Children.Remove(cli);
                     break;
                 }

@@ -226,17 +226,16 @@ namespace CPSC481_Interface {
 
             if (originalParent.Children.Count == 0) {
                 bool alreadyPlaced = false;
-                foreach (UIElement ui in window.ListOfCourses.Children)
-                {
+                foreach (UIElement ui in window.ListOfCourses.Children) {
                     CourseListItem cli = ui as CourseListItem;
-                    if (cli != null && cli.name == this.name) {
+                    if (cli != null && cli.name == name) {
                         alreadyPlaced = true;
                         break;
                     }
                 }
 
-                if (alreadyPlaced == false) {
-                    window.ListOfCourses.Children.Add(new CourseListItem(this, this.other, this.window));
+                if (!alreadyPlaced) {
+                    window.ListOfCourses.Children.Add(new CourseListItem(this, other, window));
                 }
             }
         }
