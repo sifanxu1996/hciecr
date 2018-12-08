@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:CPSC481_Interface"
              mc:Ignorable="d" MouseDown="UserControl_MouseDown" Cursor="Hand">
     <Grid>
-        <Rectangle x:Name="BG" Fill="#FFCF06" Stroke="Black" StrokeThickness="0.5"/>
+        <Rectangle x:Name="Bevel" Fill="Silver" Stroke="Black" StrokeThickness="0.5" Visibility="Hidden"/>
+        <Rectangle x:Name="BG" Fill="#FFCF06" Stroke="Black" StrokeThickness="0.5" Margin="2,2,1,1"/>
         <Label x:Name="SectionType" Content="Section" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        <Label x:Name="EnrollStatus" Content="E" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,0,0" FontWeight="ExtraBold" FontSize="14" Foreground="DarkGreen" Visibility="Hidden"/>
     </Grid>
 </UserControl>

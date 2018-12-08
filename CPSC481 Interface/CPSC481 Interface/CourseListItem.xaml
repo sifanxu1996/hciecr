@@ -5,15 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CPSC481_Interface"
              mc:Ignorable="d">
-    <Viewbox MaxHeight="55" Stretch="Fill">
+    <Viewbox MaxHeight="60" Stretch="Fill">
         <Grid >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Rectangle x:Name="BG" Grid.Column="0" Grid.ColumnSpan="2" Fill="#FFCF06" Stroke="Black" StrokeThickness="0.5" RadiusX="2" RadiusY="2" />
-            <CheckBox x:Name="CheckBox" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True" Unchecked="CourseListitem_Unchecked" Checked="CourseListItem_Checked" />
+            <Rectangle x:Name="Bevel" Grid.Column="0" Grid.ColumnSpan="3" Fill="Silver" Stroke="Black" StrokeThickness="0.5" Visibility="Hidden"/>
+            <Rectangle x:Name="BG" Grid.Column="0" Grid.ColumnSpan="3" Fill="#FFCF06" Stroke="Black" StrokeThickness="0.5" RadiusX="2" RadiusY="2" Margin="2,2,1,1" />
+            <CheckBox x:Name="CheckBox" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True" Margin="3,0,0,0" Unchecked="CourseListitem_Unchecked" Checked="CourseListItem_Checked" />
             <Label x:Name="SectionType" Grid.Column="1" Content="Section" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label x:Name="EnrollStatus" Grid.Column="2" Content="E" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="ExtraBold" FontSize="14" Foreground="DarkGreen" Visibility="Hidden"/>
         </Grid>
     </Viewbox>
 </UserControl>
