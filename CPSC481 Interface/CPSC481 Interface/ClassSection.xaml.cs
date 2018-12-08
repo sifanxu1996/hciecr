@@ -23,7 +23,7 @@ namespace CPSC481_Interface {
         public Thickness startPosition, originalMargin;
         private MainWindow window;
         private Panel originalParent;
-        private string name, type;
+        private string name, type, time;
         public Brush color;
         public ClassData data;
         public bool isTutorial, onGrid, placedOnce;
@@ -59,9 +59,10 @@ namespace CPSC481_Interface {
             sections = new GridSection[slots.Length][];
             for (int j = 0; j < slots.Length; j++) {
                 TimeSlot t = slots[j];
+                time = getTime(t.startTime, t.duration);
                 GridSection[] gs = new GridSection[t.days.Length];
                 for (int i = 0; i < t.days.Length; i++) {
-                    GridSection g = new GridSection(this, name, type, color);
+                    GridSection g = new GridSection(this, name, type, color, t.location, time);
                     Grid.SetRow(g, (int) Math.Floor(t.startTime));
                     Grid.SetColumn(g, t.days[i]);
                     Grid.SetRowSpan(g, (int) Math.Ceiling(t.duration));
@@ -83,6 +84,29 @@ namespace CPSC481_Interface {
                 }
                 sections[j] = gs;
             }
+        }
+
+        private string getTime(float startTime, float duration)
+        {
+            float realStartTime = startTime + 7;
+           
+            float realEndTime = realStartTime + duration-1;
+
+            string period;
+            if(startTime <= 4)
+            {
+                period = "AM";
+            } else
+            {
+                period = "PM";
+            }
+            if (Math.Floor(realStartTime) != realStartTime)
+            {
+                return "" + (Math.Floor(realStartTime) % 12) + ":30" + period;
+            } else {
+                return "" + (Math.Floor(realStartTime) % 12) + ":00" + period + "-" + (Math.Floor(realEndTime) % 12) + ":50" + period;
+            }
+            
         }
 
         public void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
