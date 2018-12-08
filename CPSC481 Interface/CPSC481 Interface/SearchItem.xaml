@@ -5,14 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CPSC481_Interface"
              mc:Ignorable="d" 
-             MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
+             MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" MouseDown="UserControl_MouseDown">
     <Grid>
         <StackPanel>
             <Label x:Name="ClassName" Content="Class Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
             <TextBlock x:Name="Description" Text="Class Description here" Visibility="Collapsed" FontSize="15" TextWrapping="Wrap"/>
-
             <StackPanel x:Name="Sections" Visibility="Collapsed" Orientation="Horizontal" Margin="0,2,0,2"/>
-
         </StackPanel>
     </Grid>
 </UserControl>

@@ -69,9 +69,12 @@ namespace CPSC481_Interface {
         private List<ClassData> classes;
         public bool ConfirmResult;
         private GridSection conflicting;
+        private List<CourseListItem> enrolled;
 
         public MainWindow() {
             InitializeComponent();
+
+            enrolled = new List<CourseListItem>();
 
             released = null;
             rand = new Random();
@@ -274,7 +277,7 @@ namespace CPSC481_Interface {
             }
 
             if (!found) {
-                ResultStack.Children.Add(new TextBlock() { Text = "No results found.", Margin = new Thickness(2, 1, 0, 1) });
+                ResultStack.Children.Add(new TextBlock() { Text = "No results found.", Margin = new Thickness(2, 1, 0, 1), FontSize = 15 });
             }
         }
 
@@ -282,7 +285,7 @@ namespace CPSC481_Interface {
             items = new SearchItem[classes.Count];
             for (int i = 0; i < items.Length; i++) {
                 ClassData data = classes[i];
-                SearchItem item = new SearchItem(data.name, data.ToString() + "\n\nDrag and drop the elements below to\nthe calendar on the right");
+                SearchItem item = new SearchItem(data.name, data.ToString() + "\n\nDrag and drop the elements below to\nthe calendar on the right", this);
                 ClassSection lecture = new ClassSection(this, false, item.Sections, data, data.brush, item);
                 item.Sections.Children.Add(lecture);
                 if (data.hasTutorial) {
@@ -291,9 +294,6 @@ namespace CPSC481_Interface {
                     tutorial.other = lecture;
                     lecture.other = tutorial;
                 }
-                item.ClassName.MouseLeftButtonDown += (sender, e) => {
-                    ExpandSearchItem(item);
-                };
                 items[i] = item;
             }
         }
@@ -320,7 +320,7 @@ namespace CPSC481_Interface {
         }
 
         // confirmation window
-        private void Button_Click(object sender, RoutedEventArgs e) {
+        private void Enroll_Click(object sender, RoutedEventArgs e) {
             ConfirmationWin win = CreateWindow("Confirming Enrollment", "Are you sure you want to enroll in the following courses:");
             win.ShowDialog();
         }
