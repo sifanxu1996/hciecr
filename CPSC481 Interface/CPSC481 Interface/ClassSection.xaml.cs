@@ -24,6 +24,7 @@ namespace CPSC481_Interface {
         private MainWindow window;
         private Panel originalParent;
         private string name, type, time;
+
         public Brush color;
         public ClassData data;
         public bool isTutorial, onGrid, placedOnce;
@@ -31,6 +32,7 @@ namespace CPSC481_Interface {
         private double originalHeight;
         private SearchItem searchParent;
         public ClassSection other;
+        public GridSection linked;
 
         public ClassSection(MainWindow Window, bool IsTutorial, Panel OriginalParent, ClassData Data, Brush Color, SearchItem SearchParent) {
             InitializeComponent();
@@ -178,6 +180,15 @@ namespace CPSC481_Interface {
             }
         }
 
+        public void HideConnected() {
+            foreach (GridSection[] gs in sections) {
+                if (gs.Length > 0) {
+                    gs[0].SetStay(false);
+                    gs[0].HideConnected();
+                }
+            }
+        }
+
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Released && e.ChangedButton == MouseButton.Left) {
                 window.Garbage.Visibility = Visibility.Hidden;
@@ -269,6 +280,21 @@ namespace CPSC481_Interface {
                         g.ShadowConnected();
                         g.HideConnected();
                     }
+                }
+            }
+
+            if (originalParent.Children.Count == 0) {
+                bool alreadyPlaced = false;
+                foreach (UIElement ui in window.ListOfCourses.Children) {
+                    CourseListItem cli = ui as CourseListItem;
+                    if (cli != null && cli.name == name) {
+                        alreadyPlaced = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyPlaced) {
+                    window.ListOfCourses.Children.Add(new CourseListItem(this, other, window));
                 }
             }
         }
