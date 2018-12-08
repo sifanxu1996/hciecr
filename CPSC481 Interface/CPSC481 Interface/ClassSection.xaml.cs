@@ -230,6 +230,7 @@ namespace CPSC481_Interface {
             BG.RadiusX = radius.X;
             BG.RadiusY = radius.Y;
             onGrid = false;
+            searchParent.Dragging_Info.Visibility = Visibility.Visible;
 
             for (int i = 0; i < sections.Length; i++) {
                 for (int j = 0; j < sections[i].Length; j++) {
@@ -269,6 +270,7 @@ namespace CPSC481_Interface {
             }
 
             if (originalParent.Children.Count == 0) {
+                searchParent.Dragging_Info.Visibility = Visibility.Collapsed;
                 bool alreadyPlaced = false;
                 foreach (UIElement ui in window.ListOfCourses.Children) {
                     CourseListItem cli = ui as CourseListItem;

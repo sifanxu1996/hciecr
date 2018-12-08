@@ -16,8 +16,8 @@
 
         <!-- Courses -->
         <Grid Grid.Column="0" Background="#E42526">
-            <TextBlock Text="COURSES" TextAlignment="Center" FontSize="25" FontWeight="Bold" Margin="0,5,0,0" x:Name="Debug"/>
-            <StackPanel x:Name="ListOfCourses" Margin="10,40,10,0"/>
+            <TextBlock Text="COURSES" TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,5,0,0" x:Name="Debug"/>
+            <StackPanel x:Name="ListOfCourses" Margin="10,60,10,0"/>
             <Button Content="Confirm Enrollment" Height ="50" VerticalAlignment="Bottom" Margin="10,0,10,10" FontSize="15" Click="Button_Click" />
         </Grid>
 
@@ -29,7 +29,7 @@
 
             <!-- Search -->
             <StackPanel Grid.Column="1" Background="#FFCF06">
-                <TextBox x:Name="SearchBox" Padding="2" Margin="10,10,10,5" Text="Search Course" FontSize="15" Height="30" Foreground="Gray" GotFocus="SearchBox_GotFocus" LostFocus="SearchBox_LostFocus" KeyUp="SearchBox_KeyUp"/>
+                <TextBox x:Name="SearchBox" Padding="2" Margin="10,10,10,5" Text="Search Course" FontSize="30" Height="50" Foreground="Gray" GotFocus="SearchBox_GotFocus" LostFocus="SearchBox_LostFocus" KeyUp="SearchBox_KeyUp"/>
                 <Border Margin="10,0,10,10" BorderBrush="DarkBlue" BorderThickness="1" Visibility="Collapsed">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Name="ResultStack"></StackPanel>
@@ -59,11 +59,9 @@
             </Grid.RowDefinitions>
 
             <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Semester" />
-                <RadioButton Content="F2018" Margin="10,0,10,0" IsChecked="True" />
-                <RadioButton Content="W2019" Margin="10,0,10,0" />
-                <RadioButton Content="P2019" Margin="10,0,10,0" />
-                <RadioButton Content="S2018" Margin="10,0,10,0" />
+                <TextBlock Text="Semester" FontSize="20" />
+                <RadioButton Content="F2018" Margin="10,0,10,0" VerticalContentAlignment="Center" IsChecked="True" FontSize="15"/>
+                <RadioButton Content="W2019" Margin="10,0,10,0" VerticalContentAlignment="Center" FontSize="15"/>
             </WrapPanel>
 
             <Grid Grid.Row="1" Background="White" x:Name="ScheduleGrid" x:FieldModifier="public" MouseUp="ScheduleGrid_MouseUp">
@@ -90,21 +88,21 @@
                 <Rectangle Grid.Column="0" Grid.RowSpan="9" Fill="SlateGray"/>
                 <Rectangle Grid.Row="0" Grid.ColumnSpan="9" Fill="SlateGray"/>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="Mon" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="2" Grid.Row="0" Text="Tue" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="3" Grid.Row="0" Text="Wed" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="4" Grid.Row="0" Text="Thu" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="5" Grid.Row="0" Text="Fri" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="Monday" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="Tuesday" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Grid.Column="3" Grid.Row="0" Text="Wednesday" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Grid.Column="4" Grid.Row="0" Text="Thursday" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Grid.Column="5" Grid.Row="0" Text="Friday" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="Time" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="0" Grid.Row="1" Text="8AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="0" Grid.Row="2" Text="9AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="0" Grid.Row="3" Text="10AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="0" Grid.Row="4" Text="11AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="0" Grid.Row="5" Text="12PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="0" Grid.Row="6" Text="1PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="0" Grid.Row="7" Text="2PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBlock Grid.Column="0" Grid.Row="8" Text="3PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Time" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"  />
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="8AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="9AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20" />
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="10AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="11AM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="12PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="1PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="2PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20" />
+                <TextBlock Grid.Column="0" Grid.Row="8" Text="3PM" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"/>
 
                 <Border Grid.Column="0" Grid.Row="1" BorderThickness="0.25" BorderBrush="Black"/>
                 <Border Grid.Column="0" Grid.Row="2" BorderThickness="0.25" BorderBrush="Black"/>
