@@ -88,11 +88,24 @@ namespace CPSC481_Interface {
 
         private string getTime(float startTime, float duration)
         {
+            string period, sTime, eTime, e2Time;
+
             float realStartTime = startTime + 7;
            
             float realEndTime = realStartTime + duration-1;
 
-            string period;
+            if(duration == 1 || duration == 2)
+            {
+                e2Time = ":50";
+            } else if (duration == 1.25)
+            {
+                e2Time = ":15";
+            } else
+            {
+                e2Time = ":45";
+            }
+
+            
             if(startTime <= 4)
             {
                 period = "AM";
@@ -100,11 +113,28 @@ namespace CPSC481_Interface {
             {
                 period = "PM";
             }
+
+            if(Math.Floor(realStartTime) == 12)
+            {
+                sTime = "12";
+            } else
+            {
+                sTime = "" + (Math.Floor(realStartTime) % 12);
+            }
+
+            if(Math.Floor(realEndTime) == 12)
+            {
+                eTime = "12" + e2Time;
+            } else
+            {
+                eTime = "" + (Math.Floor(realEndTime) % 12) + e2Time;
+            }
+
             if (Math.Floor(realStartTime) != realStartTime)
             {
-                return "" + (Math.Floor(realStartTime) % 12) + ":30" + period;
+                return sTime + ":30" + period + "-" + eTime + period;
             } else {
-                return "" + (Math.Floor(realStartTime) % 12) + ":00" + period + "-" + (Math.Floor(realEndTime) % 12) + ":50" + period;
+                return sTime + ":00" + period + "-" + eTime + period;
             }
             
         }
