@@ -68,6 +68,7 @@ namespace CPSC481_Interface {
         private SearchItem[] items;
         private List<ClassData> classes;
         public bool ConfirmResult;
+        private GridSection conflicting;
 
         public MainWindow() {
             InitializeComponent();
@@ -136,25 +137,69 @@ namespace CPSC481_Interface {
             return inX && inY;
         }
 
+        private bool IsReleasedConflicting(GridSection section) {
+            int count = 0;
+            foreach (UIElement ui in ScheduleGrid.Children) {
+                GridSection gs = ui as GridSection;
+                if (gs != null && !section.connected.Contains(gs) && gs.Visibility == Visibility.Visible) {
+                    Point p = Mouse.GetPosition(gs);
+                    if (IsHoveringGridSection(gs, p)) {
+                        count++;
+                        conflicting = gs;
+                        break;
+                    }
+                }
+            }
+            return count >= 1;
+        }
+
+        private void PlaceOnGrid(GridSection gs) {
+            Grid.SetRow(released, Grid.GetRow(gs));
+            Grid.SetColumn(released, Grid.GetColumn(gs));
+            Grid.SetRowSpan(released, Grid.GetRowSpan(gs));
+            Grid.SetZIndex(released, Grid.GetZIndex(gs) - 10);
+            released.VerticalAlignment = VerticalAlignment.Top;
+            released.Height = gs.Height;
+            released.Margin = gs.Margin;
+            released.OnGridPlace();
+            released.linked = gs;
+            released = null;
+        }
+
         // dropping a course onto the schedule
         private void ScheduleGrid_MouseUp(object sender, MouseButtonEventArgs e) {
             if (released != null) {
+                bool dropConflict = false;
                 foreach (UIElement ui in ScheduleGrid.Children) {
                     GridSection gs = ui as GridSection;
                     if (gs != null) {
                         Point p = Mouse.GetPosition(gs);
                         if (IsHoveringGridSection(gs, p) && gs.parentClass == released) {
-                            Grid.SetRow(released, Grid.GetRow(gs));
-                            Grid.SetColumn(released, Grid.GetColumn(gs));
-                            Grid.SetRowSpan(released, Grid.GetRowSpan(gs));
-                            Grid.SetZIndex(released, Grid.GetZIndex(gs) - 10);
-                            released.VerticalAlignment = VerticalAlignment.Top;
-                            released.Height = gs.Height;
-                            released.Margin = gs.Margin;
-                            released.OnGridPlace();
-                            released.linked = gs;
-                            released = null;
-                            break;
+                            if (!IsReleasedConflicting(gs)) {
+                                PlaceOnGrid(gs);
+                                break;
+                            } else {
+                                if (!conflicting.parentClass.data.name.Equals(gs.parentClass.data.name)) {
+                                    ConfirmationWin win = CreateWindow("Dropping", "Are you sure you wish to drop " + conflicting.parentClass.data.name + " to add " + released.data.name + "?");
+                                    win.ShowDialog();
+
+                                    if (ConfirmResult) {
+                                        dropConflict = true;
+                                        PlaceOnGrid(gs);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (dropConflict) {
+                    conflicting.parentClass.ResetPosition();
+                    conflicting.parentClass.HideConnected();
+                    ClassSection other = conflicting.parentClass.other;
+                    if (other != null) {
+                        if (other.onGrid) {
+                            other.ResetPosition();
+                            other.HideConnected();
                         }
                     }
                 }
