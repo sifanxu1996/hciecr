@@ -13,33 +13,30 @@
         BorderThickness="1"
         BorderBrush="Black"
         WindowStyle="None">
-
-
-
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.25*"/>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.7*"/>
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0" Background="AliceBlue">
-            <TextBlock  x:Name="top_win" TextAlignment="Left" FontSize="25" Margin="10,15,0,0" />
+            <TextBlock  x:Name="top_win" TextAlignment="Left" VerticalAlignment="Center" FontSize="25" Margin="10,0,0,0" />
         </Grid>
-        
-        
+
         <Grid Grid.Row="1">
-            <TextBlock x:Name="question" TextAlignment="Center" FontSize="35" Margin="0,30,0,0"/>  
+            <StackPanel Orientation="Vertical" Margin="0,30,0,0">
+                <Label x:Name="question" HorizontalAlignment="Center" FontSize="30"/>
+            </StackPanel>
         </Grid>
-        <Grid Grid.Row="3">
+
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Yes" Click="btnYes_Click" Height="100" Width="150" HorizontalAlignment="Right" Margin="0,0,30,0" FontSize="30" Background="LightGreen" ></Button>
-            <Button Grid.Column="1" Content="No" Click="btnNo_Click" Height="100" Width="150" HorizontalAlignment="Left" Margin="30,0,0,0" FontSize="30" Background="Red"></Button>
+            <Button Grid.Column="0" Content="Yes" Click="btnYes_Click" Height="100" Width="150" HorizontalAlignment="Right" Margin="0,0,30,0" FontSize="30" Background="LightGreen"/>
+            <Button Grid.Column="1" Content="No" Click="btnNo_Click" Height="100" Width="150" HorizontalAlignment="Left" Margin="30,0,0,0" FontSize="30" Background="Red"/>
         </Grid>
-
     </Grid>
 </Window>

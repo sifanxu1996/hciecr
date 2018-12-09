@@ -22,6 +22,7 @@ namespace CPSC481_Interface {
         private Brush color;
         public string name;
         private ClassSection section, other;
+        public bool isChecked;
 
         public CourseListItem(ClassSection Section, ClassSection Other, MainWindow Window) {
             InitializeComponent();
@@ -33,9 +34,11 @@ namespace CPSC481_Interface {
 
             SectionType.Content = name;
             BG.Fill = color;
+            isChecked = true;
         }
 
         private void CourseListItem_Checked(object sender, RoutedEventArgs e) {
+            isChecked = true;
             if (section != null) {
                 section.Visibility = Visibility.Visible;
                 if (section.linked != null) {
@@ -55,6 +58,7 @@ namespace CPSC481_Interface {
         }
 
         private void CourseListitem_Unchecked(object sender, RoutedEventArgs e) {
+            isChecked = false;
             section.Visibility = Visibility.Hidden;
             if (section.linked != null) {
                 section.linked.SetStay(false);
@@ -67,6 +71,18 @@ namespace CPSC481_Interface {
                     other.linked.HideConnected();
                 }
             }
+        }
+
+        public void SetEnrollment(bool enrolled) {
+            if (enrolled) {
+                Bevel.Visibility = Visibility.Visible;
+                EnrollStatus.Visibility = Visibility.Visible;
+            } else {
+                Bevel.Visibility = Visibility.Hidden;
+                EnrollStatus.Visibility = Visibility.Hidden;
+            }
+            section.SetEnrollment(enrolled);
+            other.SetEnrollment(enrolled);
         }
     }
 }

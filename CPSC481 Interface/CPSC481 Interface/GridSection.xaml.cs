@@ -79,5 +79,17 @@ namespace CPSC481_Interface {
         private void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
             parentClass.UserControl_MouseDown(sender, e);
         }
+
+        public void SetEnrollment(bool enrolled) {
+            foreach (GridSection gs in connected) {
+                if (enrolled) {
+                    gs.Bevel.Visibility = Visibility.Visible;
+                    gs.EnrollStatus.Visibility = Visibility.Visible;
+                } else {
+                    gs.Bevel.Visibility = Visibility.Hidden;
+                    gs.EnrollStatus.Visibility = Visibility.Hidden;
+                }
+            }
+        }
     }
 }
