@@ -33,6 +33,7 @@ namespace CPSC481_Interface {
         public SearchItem searchParent;
         public ClassSection other;
         public GridSection linked;
+        public bool enrolled;
 
         public ClassSection(MainWindow Window, bool IsTutorial, Panel OriginalParent, ClassData Data, Brush Color, SearchItem SearchParent) {
             InitializeComponent();
@@ -64,7 +65,7 @@ namespace CPSC481_Interface {
                 time = getTime(t.startTime, t.duration);
                 GridSection[] gs = new GridSection[t.days.Length];
                 for (int i = 0; i < t.days.Length; i++) {
-                    GridSection g = new GridSection(this, name, type, color, t.location, time);
+                    GridSection g = new GridSection(this, name, type, color, t.location, time, t);
                     Grid.SetRow(g, (int) Math.Floor(t.startTime));
                     Grid.SetColumn(g, t.days[i]);
                     Grid.SetRowSpan(g, (int) Math.Ceiling(t.duration));
@@ -217,7 +218,7 @@ namespace CPSC481_Interface {
             }
         }
 
-        public void ResetPosition() {
+        public void ResetPosition(bool showHelp = true) {
             if (window.ScheduleGrid.Children.Contains(this)) {
                 window.ScheduleGrid.Children.Remove(this);
             }
@@ -230,7 +231,9 @@ namespace CPSC481_Interface {
             BG.RadiusX = radius.X;
             BG.RadiusY = radius.Y;
             onGrid = false;
-            searchParent.Dragging_Info.Visibility = Visibility.Visible;
+            if (showHelp) {
+                searchParent.Dragging_Info.Visibility = Visibility.Visible;
+            }
 
             for (int i = 0; i < sections.Length; i++) {
                 for (int j = 0; j < sections[i].Length; j++) {
@@ -287,6 +290,7 @@ namespace CPSC481_Interface {
         }
 
         public void SetEnrollment(bool enrolled) {
+            this.enrolled = enrolled;
             if (enrolled) {
                 Bevel.Visibility = Visibility.Visible;
                 EnrollStatus.Visibility = Visibility.Visible;
@@ -294,7 +298,9 @@ namespace CPSC481_Interface {
                 Bevel.Visibility = Visibility.Hidden;
                 EnrollStatus.Visibility = Visibility.Hidden;
             }
-            linked.SetEnrollment(enrolled);
+            foreach (GridSection[] gs in sections) {
+                gs[0].SetEnrollment(enrolled);
+            }
         }
     }
 }

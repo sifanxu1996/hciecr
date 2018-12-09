@@ -23,12 +23,14 @@ namespace CPSC481_Interface {
         public GridSection[] connected;
         public bool stayOnGrid;
         public ClassSection parentClass;
+        public TimeSlot timeSlot;
 
-        public GridSection(ClassSection ParentClass, string Name, string Type, Brush HoverColor, string location, string startTime) {
+        public GridSection(ClassSection ParentClass, string Name, string Type, Brush HoverColor, string location, string startTime, TimeSlot Slot) {
             InitializeComponent();
 
             parentClass = ParentClass;
             hover = HoverColor;
+            timeSlot = Slot;
 
             Color c = ((SolidColorBrush) HoverColor).Color;
             normal = new SolidColorBrush(Color.FromArgb(100, c.R, c.G, c.B));
@@ -40,6 +42,7 @@ namespace CPSC481_Interface {
 
         public void SetStay(bool val) {
             foreach (GridSection g in connected) {
+                Grid.SetZIndex(g, 5);
                 g.stayOnGrid = val;
             }
         }
@@ -57,6 +60,7 @@ namespace CPSC481_Interface {
         public void HideConnected() {
             if (!stayOnGrid) {
                 foreach (GridSection g in connected) {
+                    Grid.SetZIndex(g, -10);
                     g.Visibility = Visibility.Hidden;
                 }
             }

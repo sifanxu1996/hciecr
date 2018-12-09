@@ -20,7 +20,7 @@ namespace CPSC481_Interface {
     // TimeSlot class
     public class TimeSlot {
         public int[] days;
-        public float startTime, duration;
+        public float startTime, duration, endTime;
         public string location;
 
         public TimeSlot(int[] days, float startTime, int duration, string location) {
@@ -28,6 +28,7 @@ namespace CPSC481_Interface {
             this.startTime = startTime;
             this.duration = duration / 60f;
             this.location = location;
+            endTime = startTime + this.duration;
         }
     }
 
@@ -109,15 +110,14 @@ namespace CPSC481_Interface {
 
                         if (ConfirmResult) {
                             CourseList_Clear(released.name);
-                            released.ResetPosition();
+                            released.ResetPosition(false);
                             ClassSection other = released.other;
                             if (other != null) {
                                 if (other.onGrid) {
-                                    other.ResetPosition();
+                                    other.ResetPosition(false);
                                     other.HideConnected();
                                 }
                             }
-                            released.searchParent.Dragging_Info.Visibility = Visibility.Collapsed;
                         } else {
                             released.Margin = released.originalMargin;
                             released.OnGridPlace(true);
@@ -146,22 +146,38 @@ namespace CPSC481_Interface {
         }
 
         private bool IsReleasedConflicting(GridSection section) {
-            int count = 0;
             foreach (UIElement ui in ScheduleGrid.Children) {
-                GridSection gs = ui as GridSection;
-                if (gs != null && !section.connected.Contains(gs) && gs.Visibility == Visibility.Visible) {
-                    Point p = Mouse.GetPosition(gs);
-                    if (IsHoveringGridSection(gs, p)) {
-                        count++;
-                        conflicting = gs;
-                        break;
+                GridSection other = ui as GridSection;
+                if (other != null && !section.connected.Contains(other) && other.Visibility == Visibility.Visible) {
+                    float start = other.timeSlot.startTime;
+                    float end = other.timeSlot.endTime;
+                    int col = Grid.GetColumn(other);
+                    int row = Grid.GetRow(other);
+                    foreach (GridSection gs in section.connected) {
+                        float gsStart = gs.timeSlot.startTime;
+                        float gsEnd = gs.timeSlot.endTime;
+                        int gsCol = Grid.GetColumn(gs);
+                        int gsRow = Grid.GetRow(gs);
+                        bool startConflict = gsStart >= start && gsStart <= end;
+                        bool endConflict = gsEnd >= start && gsEnd <= end;
+                        if (gsCol == col) {
+                            if (gsRow == row) {
+                                conflicting = other;
+                                return true;
+                            } else if ((startConflict && gsStart != end) || (endConflict && gsEnd != start)) {
+                                conflicting = other;
+                                return true;
+                            }
+                        }
+
                     }
                 }
             }
-            return count >= 1;
+            return false;
         }
 
         private void PlaceOnGrid(GridSection gs) {
+            bool inOldSpot = (Grid.GetRow(gs) == Grid.GetRow(released)) && (Grid.GetColumn(gs) == Grid.GetColumn(released)) && (Grid.GetRowSpan(released) == Grid.GetRowSpan(gs));
             Grid.SetRow(released, Grid.GetRow(gs));
             Grid.SetColumn(released, Grid.GetColumn(gs));
             Grid.SetRowSpan(released, Grid.GetRowSpan(gs));
@@ -171,6 +187,15 @@ namespace CPSC481_Interface {
             released.Margin = gs.Margin;
             released.OnGridPlace();
             released.linked = gs;
+            if (gs.parentClass.enrolled && !inOldSpot) {
+                gs.parentClass.SetEnrollment(false);
+                foreach (CourseListItem cli in enrolled) {
+                    if (cli.name.Equals(gs.parentClass.data.name)) {
+                        cli.SetEnrollment(false, false);
+                        break;
+                    }
+                }
+            }
             released = null;
         }
 
@@ -201,23 +226,16 @@ namespace CPSC481_Interface {
                     }
                 }
                 if (dropConflict) {
-                    conflicting.parentClass.ResetPosition();
+                    conflicting.parentClass.ResetPosition(false);
                     conflicting.parentClass.HideConnected();
                     ClassSection other = conflicting.parentClass.other;
                     if (other != null) {
                         if (other.onGrid) {
-                            other.ResetPosition();
+                            other.ResetPosition(false);
                             other.HideConnected();
                         }
                     }
-                    foreach (UIElement ui in ListOfCourses.Children) {
-                        CourseListItem cli = ui as CourseListItem;
-                        if (cli != null && conflicting.parentClass.data.name.Equals(cli.name)) {
-                            cli.SetEnrollment(false);
-                            ListOfCourses.Children.Remove(cli);
-                            break;
-                        }
-                    }
+                    CourseList_Clear(conflicting.parentClass.data.name);
                 }
             }
         }
@@ -363,15 +381,39 @@ namespace CPSC481_Interface {
                 }
             }
 
-            string prompt = "Are you sure you want to enroll in the following courses?";
+            string prompt = "";
+            bool allIn = true;
             foreach (CourseListItem cli in addList) {
-                prompt += "\n\t" + cli.name;
+                if (!enrolled.Contains(cli) || !cli.enrolled) {
+                    allIn = false;
+                    break;
+                }
             }
+            foreach (CourseListItem cli in enrolled) {
+                if (!addList.Contains(cli) || !cli.enrolled) {
+                    allIn = false;
+                    break;
+                }
+            }
+            if (allIn) {
+                prompt = "Are you sure you want to confirm enrollment?";
+            } else {
+                if (addList.Count > 0) {
+                    prompt += "Are you sure you want to enroll in the following courses?";
+                    foreach (CourseListItem cli in addList) {
+                        prompt += "\n\t" + cli.name;
+                    }
+                }
 
-            if (dropList.Count > 0) {
-                prompt += "\nAnd drop the following courses?";
-                foreach (CourseListItem cli in dropList) {
-                    prompt += "\n\t" + cli.name;
+                if (dropList.Count > 0) {
+                    if (addList.Count > 0) {
+                        prompt += "\nAnd drop the following courses?";
+                    } else {
+                        prompt += "Are you sure you want to drop the following courses?";
+                    }
+                    foreach (CourseListItem cli in dropList) {
+                        prompt += "\n\t" + cli.name;
+                    }
                 }
             }
 
@@ -442,7 +484,8 @@ namespace CPSC481_Interface {
         private void CourseList_Clear(string name) {
             foreach (UIElement ui in ListOfCourses.Children) {
                 CourseListItem cli = ui as CourseListItem;
-                if (cli != null && cli.name == name) {
+                if (cli != null && cli.name.Equals(name)) {
+                    cli.SetEnrollment(false);
                     ListOfCourses.Children.Remove(cli);
                     break;
                 }
