@@ -285,5 +285,16 @@ namespace CPSC481_Interface {
                 }
             }
         }
+
+        public void SetEnrollment(bool enrolled) {
+            if (enrolled) {
+                Bevel.Visibility = Visibility.Visible;
+                EnrollStatus.Visibility = Visibility.Visible;
+            } else {
+                Bevel.Visibility = Visibility.Hidden;
+                EnrollStatus.Visibility = Visibility.Hidden;
+            }
+            linked.SetEnrollment(enrolled);
+        }
     }
 }

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CPSC481_Interface"
              mc:Ignorable="d" 
-             MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
+             MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" MouseDown="UserControl_MouseDown">
     <Grid>
         <StackPanel>
             <Label x:Name="ClassName" Content="Class Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="ExtraBold"/>
@@ -13,7 +13,6 @@
             <TextBlock x:Name="Description" Visibility="Collapsed" FontSize="15" TextWrapping="Wrap" Padding="10,10,10,10" FontFamily="Calibri"/>
             <TextBlock x:Name="Dragging_Info" Text="Drag and drop the elements below to the calendar" FontStyle="Italic" FontFamily="Calibri" FontSize="15" HorizontalAlignment="Center" Visibility="Collapsed" TextWrapping="Wrap" Margin="5,15,5,5"/>
             <StackPanel x:Name="Sections" Visibility="Collapsed" Orientation="Horizontal" Margin="0,2,0,10" HorizontalAlignment="Center"/>
-
         </StackPanel>
     </Grid>
 </UserControl>

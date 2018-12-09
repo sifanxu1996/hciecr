@@ -21,12 +21,14 @@ namespace CPSC481_Interface {
 
         private bool expanded;
         private Brush highlight, transparent, selected;
+        private MainWindow window;
 
-        public SearchItem(string Name, string DescriptionText) {
+        public SearchItem(string Name, string DescriptionText, MainWindow Window) {
             InitializeComponent();
 
             ClassName.Content = Name;
             Description.Text = DescriptionText;
+            window = Window;
 
             expanded = false;
             transparent = Brushes.Transparent;
@@ -55,6 +57,10 @@ namespace CPSC481_Interface {
             if (!expanded) {
                 Background = b;
             }
+        }
+
+        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
+            window.ExpandSearchItem(this);
         }
 
         private void UserControl_MouseEnter(object sender, MouseEventArgs e) {

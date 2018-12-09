@@ -71,9 +71,12 @@ namespace CPSC481_Interface {
         private List<ClassData> classes;
         public bool ConfirmResult;
         private GridSection conflicting;
+        private List<CourseListItem> enrolled;
 
         public MainWindow() {
             InitializeComponent();
+
+            enrolled = new List<CourseListItem>();
 
             released = null;
             rand = new Random();
@@ -204,6 +207,14 @@ namespace CPSC481_Interface {
                             other.HideConnected();
                         }
                     }
+                    foreach (UIElement ui in ListOfCourses.Children) {
+                        CourseListItem cli = ui as CourseListItem;
+                        if (cli != null && conflicting.parentClass.data.name.Equals(cli.name)) {
+                            cli.SetEnrollment(false);
+                            ListOfCourses.Children.Remove(cli);
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -296,9 +307,6 @@ namespace CPSC481_Interface {
                     lecture.Margin = new Thickness(0, 0, 5, 0);
                     tutorial.Margin = new Thickness(5, 0, 0, 0);
                 }
-                item.ClassName.MouseLeftButtonDown += (sender, e) => {
-                    ExpandSearchItem(item);
-                };
                 items[i] = item;
             }
         }
@@ -320,14 +328,51 @@ namespace CPSC481_Interface {
             win.Owner = this;
             win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             win.top_win.Text = title;
-            win.question.Text = text;
+            win.question.Content = text;
             return win;
         }
 
         // confirmation window
-        private void Button_Click(object sender, RoutedEventArgs e) {
-            ConfirmationWin win = CreateWindow("Confirming Enrollment", "Are you sure you want to enroll in the following courses:");
+        private void Enroll_Click(object sender, RoutedEventArgs e) {
+            List<CourseListItem> addList = new List<CourseListItem>();
+            List<CourseListItem> dropList = new List<CourseListItem>();
+            foreach (UIElement ui in ListOfCourses.Children) {
+                CourseListItem cli = ui as CourseListItem;
+                if (cli != null) {
+                    if (cli.isChecked) {
+                        addList.Add(cli);
+                    } else {
+                        if (enrolled.Contains(cli)) {
+                            dropList.Add(cli);
+                        }
+                    }
+                }
+            }
+
+            string prompt = "Are you sure you want to enroll in the following courses?";
+            foreach (CourseListItem cli in addList) {
+                prompt += "\n\t" + cli.name;
+            }
+
+            if (dropList.Count > 0) {
+                prompt += "\nAnd drop the following courses?";
+                foreach (CourseListItem cli in dropList) {
+                    prompt += "\n\t" + cli.name;
+                }
+            }
+
+            ConfirmationWin win = CreateWindow("Confirming Enrollment", prompt);
             win.ShowDialog();
+
+            if (ConfirmResult) {
+                enrolled = addList;
+                foreach (CourseListItem cli in addList) {
+                    cli.SetEnrollment(true);
+                }
+                foreach (CourseListItem cli in dropList) {
+                    cli.SetEnrollment(false);
+                }
+            }
         }
 
         private bool IsHoveringGridSection(GridSection gs, Point p) {
