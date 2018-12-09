@@ -30,7 +30,7 @@ namespace CPSC481_Interface {
         public bool isTutorial, onGrid, placedOnce;
         private GridSection[][] sections;
         private double originalHeight;
-        private SearchItem searchParent;
+        public SearchItem searchParent;
         public ClassSection other;
         public GridSection linked;
 
@@ -138,7 +138,7 @@ namespace CPSC481_Interface {
 
                 window.Garbage.Visibility = Visibility.Visible;
                 Grid.SetZIndex(this, 1);
-                window.ExpandSearchItem(searchParent);
+                window.TryExpandSearchItem(searchParent);
 
                 startPosition = this.Margin;
                 this.CaptureMouse();

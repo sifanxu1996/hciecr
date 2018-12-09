@@ -72,6 +72,7 @@ namespace CPSC481_Interface {
         public bool ConfirmResult;
         private GridSection conflicting;
         private List<CourseListItem> enrolled;
+        private SearchItem expanded;
 
         public MainWindow() {
             InitializeComponent();
@@ -116,6 +117,7 @@ namespace CPSC481_Interface {
                                     other.HideConnected();
                                 }
                             }
+                            released.searchParent.Dragging_Info.Visibility = Visibility.Collapsed;
                         } else {
                             released.Margin = released.originalMargin;
                             released.OnGridPlace(true);
@@ -305,12 +307,13 @@ namespace CPSC481_Interface {
                     item.Sections.Children.Add(tutorial);
                     tutorial.other = lecture;
                     lecture.other = tutorial;
+                    item.numSections = 2;
                 }
                 items[i] = item;
             }
         }
 
-        public void ExpandSearchItem(SearchItem s) {
+        private void ExpandSearchItem(SearchItem s) {
             SearchBox.Text = s.ClassName.Content.ToString().Split(' ')[0];
             SearchBox_KeyUp(this, null);
             foreach (UIElement ui in ResultStack.Children) {
@@ -320,6 +323,18 @@ namespace CPSC481_Interface {
                 }
             }
             s.SetExpanded(true);
+            expanded = s;
+        }
+
+        public void TryExpandSearchItem(SearchItem s) {
+            if (expanded == null) {
+                ExpandSearchItem(s);
+            } else {
+                int count = expanded.Sections.Children.Count;
+                if (count == 0 || count == expanded.numSections) {
+                    ExpandSearchItem(s);
+                }
+            }
         }
 
         private ConfirmationWin CreateWindow(string title, string text) {

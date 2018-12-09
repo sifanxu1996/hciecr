@@ -22,9 +22,12 @@ namespace CPSC481_Interface {
         private bool expanded;
         private Brush highlight, transparent, selected;
         private MainWindow window;
+        public int numSections;
 
         public SearchItem(string Name, string DescriptionText, MainWindow Window) {
             InitializeComponent();
+
+            numSections = 1;
 
             ClassName.Content = Name;
             Description.Text = DescriptionText;
@@ -60,7 +63,7 @@ namespace CPSC481_Interface {
         }
 
         private void UserControl_MouseDown(object sender, MouseButtonEventArgs e) {
-            window.ExpandSearchItem(this);
+            window.TryExpandSearchItem(this);
         }
 
         private void UserControl_MouseEnter(object sender, MouseEventArgs e) {
