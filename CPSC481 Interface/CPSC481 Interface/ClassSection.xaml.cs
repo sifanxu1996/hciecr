@@ -22,7 +22,7 @@ namespace CPSC481_Interface {
         private Point radius;
         public Thickness startPosition, originalMargin;
         private MainWindow window;
-        private Panel originalParent;
+        public Panel originalParent;
         private string type, time;
         public string name;
         public Brush color;
@@ -41,7 +41,7 @@ namespace CPSC481_Interface {
             searchParent = SearchParent;
 
             originalParent = OriginalParent;
-            originalMargin = Margin;
+            originalMargin = new Thickness(5, 0, 5, 0);
             originalHeight = Height;
 
             data = Data;

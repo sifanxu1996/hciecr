@@ -55,7 +55,7 @@ namespace CPSC481_Interface {
         }
 
         public override string ToString() {
-            return String.Format("{0}\n\nProfessor: {1}\n\nTimes: {2}", new string[] {description, professor, times });
+            return String.Format("{0}\n\nProfessor: {1}\n\nTimes: {2}", new string[] { description, professor, times });
         }
     }
 
@@ -102,7 +102,7 @@ namespace CPSC481_Interface {
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
             if (released != null) {
                 if (IsHoveringGarbage(TrashEmpty) || IsHoveringGarbage(TrashFull)) {
-                    if (released.onGrid) {
+                    if (released.onGrid && released.originalParent.Children.Count == 0) {
                         ConfirmationWin win = CreateWindow("Dropping", "Are you sure you wish to drop: " + released.data.name);
                         win.ShowDialog();
 
@@ -125,7 +125,8 @@ namespace CPSC481_Interface {
                     }
                 } else {
                     if (released.onGrid) {
-                        released.Margin = released.originalMargin;
+                        released.Margin = new Thickness(5, 0, 5, 0);
+                        Grid.SetZIndex(released, -10);
                         released.OnGridPlace(true);
                     } else {
                         released.ResetPosition();
@@ -304,8 +305,6 @@ namespace CPSC481_Interface {
                     item.Sections.Children.Add(tutorial);
                     tutorial.other = lecture;
                     lecture.other = tutorial;
-                    lecture.Margin = new Thickness(0, 0, 5, 0);
-                    tutorial.Margin = new Thickness(5, 0, 0, 0);
                 }
                 items[i] = item;
             }
