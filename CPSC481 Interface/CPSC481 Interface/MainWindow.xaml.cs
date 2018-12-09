@@ -295,7 +295,7 @@ namespace CPSC481_Interface {
             items = new SearchItem[classes.Count];
             for (int i = 0; i < items.Length; i++) {
                 ClassData data = classes[i];
-                SearchItem item = new SearchItem(data.name, data.ToString());
+                SearchItem item = new SearchItem(data.name, data.ToString(), this);
                 item.Course_title.Text = data.title;
                 ClassSection lecture = new ClassSection(this, false, item.Sections, data, data.brush, item);
                 item.Sections.Children.Add(lecture);
