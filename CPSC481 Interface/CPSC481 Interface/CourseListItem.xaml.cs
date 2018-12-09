@@ -82,7 +82,9 @@ namespace CPSC481_Interface {
                 EnrollStatus.Visibility = Visibility.Hidden;
             }
             section.SetEnrollment(enrolled);
-            other.SetEnrollment(enrolled);
+            if (other != null) {
+                other.SetEnrollment(enrolled);
+            }
         }
     }
 }
