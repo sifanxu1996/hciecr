@@ -44,7 +44,11 @@ namespace CPSC481_Interface {
                 Background = selected;
                 Sections.Visibility = Visibility.Visible;
                 Description.Visibility = Visibility.Visible;
-                Dragging_Info.Visibility = Visibility.Visible;
+                if (Sections.Children.Count > 0) {
+                    Dragging_Info.Visibility = Visibility.Visible;
+                } else {
+                    Dragging_Info.Visibility = Visibility.Hidden;
+                }
                 Course_title.Visibility = Visibility.Visible;
             } else {
                 Background = transparent;

@@ -42,7 +42,6 @@ namespace CPSC481_Interface {
 
         public void SetStay(bool val) {
             foreach (GridSection g in connected) {
-                Grid.SetZIndex(g, 5);
                 g.stayOnGrid = val;
             }
         }
@@ -60,7 +59,6 @@ namespace CPSC481_Interface {
         public void HideConnected() {
             if (!stayOnGrid) {
                 foreach (GridSection g in connected) {
-                    Grid.SetZIndex(g, -10);
                     g.Visibility = Visibility.Hidden;
                 }
             }

@@ -138,7 +138,7 @@ namespace CPSC481_Interface {
                 }
 
                 window.Garbage.Visibility = Visibility.Visible;
-                Grid.SetZIndex(this, 1);
+                Grid.SetZIndex(this, 0);
                 window.TryExpandSearchItem(searchParent);
 
                 startPosition = this.Margin;
@@ -189,6 +189,9 @@ namespace CPSC481_Interface {
                 foreach (GridSection[] gs in sections) {
                     if (gs.Length > 0) {
                         gs[0].ShowConnected();
+                        foreach (GridSection g in gs) {
+                            Grid.SetZIndex(g, 10);
+                        }
                     }
                 }
             }
@@ -198,6 +201,9 @@ namespace CPSC481_Interface {
             foreach (GridSection[] gs in sections) {
                 if (gs.Length > 0) {
                     gs[0].HideConnected();
+                    foreach (GridSection g in gs) {
+                        Grid.SetZIndex(g, 0);
+                    }
                 }
             }
         }
@@ -234,6 +240,7 @@ namespace CPSC481_Interface {
             if (showHelp) {
                 searchParent.Dragging_Info.Visibility = Visibility.Visible;
             }
+            Grid.SetZIndex(this, -10);
 
             for (int i = 0; i < sections.Length; i++) {
                 for (int j = 0; j < sections[i].Length; j++) {

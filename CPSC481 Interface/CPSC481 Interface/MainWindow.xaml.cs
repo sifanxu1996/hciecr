@@ -128,7 +128,6 @@ namespace CPSC481_Interface {
                 } else {
                     if (released.onGrid) {
                         released.Margin = new Thickness(5, 0, 5, 0);
-                        Grid.SetZIndex(released, -10);
                         released.OnGridPlace(true);
                     } else {
                         released.ResetPosition();
@@ -181,7 +180,7 @@ namespace CPSC481_Interface {
             Grid.SetRow(released, Grid.GetRow(gs));
             Grid.SetColumn(released, Grid.GetColumn(gs));
             Grid.SetRowSpan(released, Grid.GetRowSpan(gs));
-            Grid.SetZIndex(released, Grid.GetZIndex(gs) - 10);
+            Grid.SetZIndex(released, -10);
             released.VerticalAlignment = VerticalAlignment.Top;
             released.Height = gs.Height;
             released.Margin = gs.Margin;
