@@ -21,11 +21,13 @@ namespace CPSC481_Interface {
     public class TimeSlot {
         public int[] days;
         public float startTime, duration;
+        public string location;
 
-        public TimeSlot(int[] days, float startTime, int duration) {
+        public TimeSlot(int[] days, float startTime, int duration, string location) {
             this.days = days;
             this.startTime = startTime;
             this.duration = duration / 60f;
+            this.location = location;
         }
     }
 
@@ -53,7 +55,7 @@ namespace CPSC481_Interface {
         }
 
         public override string ToString() {
-            return String.Format("{0}\n\n{1}\n\nProfessor: {2}\n\nTimes: {3}", new string[] { title, description, professor, times });
+            return String.Format("{0}\n\nProfessor: {1}\n\nTimes: {2}", new string[] {description, professor, times });
         }
     }
 
@@ -231,12 +233,12 @@ namespace CPSC481_Interface {
 
         // generate list of available courses
         private List<ClassData> GetClasses() {
-            ClassData cpsc231 = new ClassData("CPSC 231", "Introduction to Computer Science for Computer Science Majors I", "Introduction to problem solving, the analysis and design of small-scale computational systems, and implementation using a procedural programming language. For computer science majors.", "Nathaly Verwaal", "10AM-10:50AM MWF, 11:00AM-12:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 3, 60), new TimeSlot(new int[] { 2, 4 }, 4, 75) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 4, 60), new TimeSlot(new int[] { 5 }, 1, 120) });
-            ClassData cpsc413 = new ClassData("CPSC 413", "Design and Analysis of Algorithms I", "Techniques for the analysis of algorithms, including counting, summation, recurrences, and asymptotic relations; techniques for the design of efficient algorithms, including greedy methods, divide and conquer, and dynamic programming; examples of their application; an introduction to tractable and intractable problems.", "Peter Hoyer", "9:30AM-10:45AM TR", new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 2.5f, 90) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 4, 60), new TimeSlot(new int[] { 1, 3 }, 4, 60) });
-            ClassData cpsc481 = new ClassData("CPSC 481", "Human-Computer Interaction I", "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.", "Ehud Sharlin", "10AM-10:50AM MWF", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 3, 60) }, true, new TimeSlot[] { new TimeSlot(new int[] { 1 }, 5, 120), new TimeSlot(new int[] { 5 }, 5, 120) });
-            ClassData math211 = new ClassData("MATH 211", "Linear Methods I", "Systems of equations and matrices, vectors, matrix representations and determinants. Complex numbers, polar form, eigenvalues, eigenvectors. Applications.", "Thi Dinh", "1PM-1:50PM MWF, 2:00PM-3:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 6, 60), new TimeSlot(new int[] { 2, 4 }, 7, 75) }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 1, 60), new TimeSlot(new int[] { 2, 4 }, 2, 60) });
-            ClassData ling201 = new ClassData("LING 201", "Introduction to Linguistics I", "Introduction to the scientific study of language, including the analysis of word, sentence, and sound structure, and the exploration of language as a human, biological, social, and historical phenomenon.", "Stephen Winters", "2:00PM-2:50PM MWF", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 7, 60) }, false, null);
-            ClassData phil314 = new ClassData("PHIL 314", "Information Technology Ethics", "A critical and analytical examination of ethical and legal problems arising in and about information technology. May include hacking, online privacy, intellectual property rights, artificial intelligence, globalization and regulation issues, cheating in online games, and others.", "Reid Buchanan", "2:00PM-3:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 7, 75) }, false, null);
+            ClassData cpsc231 = new ClassData("CPSC 231", "Introduction to Computer Science for Computer Science Majors I", "Introduction to problem solving, the analysis and design of small-scale computational systems, and implementation using a procedural programming language. For computer science majors.", "Nathaly Verwaal", "10:00AM-10:50AM MWF, 11:00AM-12:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 3, 60, "ST 140"), new TimeSlot(new int[] { 2, 4 }, 4, 75, "Admin 142") }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 4, 60, "MS 176"), new TimeSlot(new int[] { 5 }, 1, 120, "MS 365") });
+            ClassData cpsc413 = new ClassData("CPSC 413", "Design and Analysis of Algorithms I", "Techniques for the analysis of algorithms, including counting, summation, recurrences, and asymptotic relations; techniques for the design of efficient algorithms, including greedy methods, divide and conquer, and dynamic programming; examples of their application; an introduction to tractable and intractable problems.", "Peter Hoyer", "9:30AM-10:45AM TR", new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 2.5f, 90, "ST 141") }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 4, 60, "ST 070"), new TimeSlot(new int[] { 1, 3 }, 4, 60, "ST 068") });
+            ClassData cpsc481 = new ClassData("CPSC 481", "Human-Computer Interaction I", "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.", "Ehud Sharlin", "10:00AM-10:50AM MWF", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 3, 60, "ICT 121") }, true, new TimeSlot[] { new TimeSlot(new int[] { 1 }, 5, 120, "MS 156"), new TimeSlot(new int[] { 5 }, 5, 120, "MS 121") });
+            ClassData math211 = new ClassData("MATH 211", "Linear Methods I", "Systems of equations and matrices, vectors, matrix representations and determinants. Complex numbers, polar form, eigenvalues, eigenvectors. Applications.", "Thi Dinh", "1:00PM-1:50PM MWF, 2:00PM-3:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 6, 60, "Science A 123"), new TimeSlot(new int[] { 2, 4 }, 7, 75, "Education 172") }, true, new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 1, 60, "SB 020"), new TimeSlot(new int[] { 2, 4 }, 2, 60, "Kines 070") });
+            ClassData ling201 = new ClassData("LING 201", "Introduction to Linguistics I", "Introduction to the scientific study of language, including the analysis of word, sentence, and sound structure, and the exploration of language as a human, biological, social, and historical phenomenon.", "Stephen Winters", "2:00PM-2:50PM MWF", new TimeSlot[] { new TimeSlot(new int[] { 1, 3, 5 }, 7, 60, "Murray Fraiser Hall 160") }, false, null);
+            ClassData phil314 = new ClassData("PHIL 314", "Information Technology Ethics", "A critical and analytical examination of ethical and legal problems arising in and about information technology. May include hacking, online privacy, intellectual property rights, artificial intelligence, globalization and regulation issues, cheating in online games, and others.", "Reid Buchanan", "2:00PM-3:15PM TR", new TimeSlot[] { new TimeSlot(new int[] { 2, 4 }, 7, 75, "ST 148") }, false, null);
 
             List<ClassData> data = new List<ClassData>(new ClassData[] { cpsc231, cpsc413, cpsc481, math211, ling201, phil314 });
             data = Shuffle(data);
@@ -285,7 +287,7 @@ namespace CPSC481_Interface {
             }
 
             if (!found) {
-                ResultStack.Children.Add(new TextBlock() { Text = "No results found.", Margin = new Thickness(2, 1, 0, 1), FontSize = 15 });
+                ResultStack.Children.Add(new TextBlock() { Text = "No results found", Margin = new Thickness(2, 1, 0, 1), FontSize = 30 });
             }
         }
 
@@ -293,7 +295,8 @@ namespace CPSC481_Interface {
             items = new SearchItem[classes.Count];
             for (int i = 0; i < items.Length; i++) {
                 ClassData data = classes[i];
-                SearchItem item = new SearchItem(data.name, data.ToString() + "\n\nDrag and drop the elements below to\nthe calendar on the right", this);
+                SearchItem item = new SearchItem(data.name, data.ToString());
+                item.Course_title.Text = data.title;
                 ClassSection lecture = new ClassSection(this, false, item.Sections, data, data.brush, item);
                 item.Sections.Children.Add(lecture);
                 if (data.hasTutorial) {
@@ -301,6 +304,8 @@ namespace CPSC481_Interface {
                     item.Sections.Children.Add(tutorial);
                     tutorial.other = lecture;
                     lecture.other = tutorial;
+                    lecture.Margin = new Thickness(0, 0, 5, 0);
+                    tutorial.Margin = new Thickness(5, 0, 0, 0);
                 }
                 items[i] = item;
             }

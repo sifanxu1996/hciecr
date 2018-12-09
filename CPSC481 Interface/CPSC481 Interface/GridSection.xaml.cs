@@ -24,7 +24,7 @@ namespace CPSC481_Interface {
         public bool stayOnGrid;
         public ClassSection parentClass;
 
-        public GridSection(ClassSection ParentClass, string Name, string Type, Brush HoverColor) {
+        public GridSection(ClassSection ParentClass, string Name, string Type, Brush HoverColor, string location, string startTime) {
             InitializeComponent();
 
             parentClass = ParentClass;
@@ -34,7 +34,7 @@ namespace CPSC481_Interface {
             normal = new SolidColorBrush(Color.FromArgb(100, c.R, c.G, c.B));
             BG.Fill = normal;
 
-            SectionType.Content = Name + " " + Type;
+            SectionType.Content = Name + " " + Type + "\n" + location + "\n" + startTime;
             stayOnGrid = false;
         }
 

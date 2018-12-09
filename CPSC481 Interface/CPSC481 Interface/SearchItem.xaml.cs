@@ -41,10 +41,14 @@ namespace CPSC481_Interface {
                 Background = selected;
                 Sections.Visibility = Visibility.Visible;
                 Description.Visibility = Visibility.Visible;
+                Dragging_Info.Visibility = Visibility.Visible;
+                Course_title.Visibility = Visibility.Visible;
             } else {
                 Background = transparent;
                 Sections.Visibility = Visibility.Collapsed;
                 Description.Visibility = Visibility.Collapsed;
+                Dragging_Info.Visibility = Visibility.Collapsed;
+                Course_title.Visibility = Visibility.Collapsed;
             }
             expanded = visible;
         }
